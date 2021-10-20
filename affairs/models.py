@@ -182,6 +182,10 @@ class Vacations(models.Model):
     start_date = models.DateField('بداية من')
     end_date = models.DateField('نهاية الي')
 
+    class Meta:
+        verbose_name = 'الاجازات'
+        verbose_name_plural = 'الاجازات'
+
     @property
     def username(self):
         return self.user.get_full_name() or self.user.username
