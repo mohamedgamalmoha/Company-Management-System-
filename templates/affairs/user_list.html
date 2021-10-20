@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<form method="GET" class="contact-form" style="width:65%; align:center; margin: 0 auto; margin-top:35px;  direction: rtl;">
+   <h4 style="text-align:center;">تسجيل الدخول</h4>
+   {% csrf_token %}
+   {{ form|crispy }}
+   <div class="d-grid" style="margin-top:10px;"><button class="btn btn-dark btn-lg " id="submitButton" type="submit">تسجيل</button></div>
+</form>
+
+<section id="contact" data-stellar-background-ratio="0.5">
+     <div class="container">
+          <div class="row">
+               <div class="col-md-offset-1 col-md-10 col-sm-12">
+                     <div class="section-title">
+                         {% for obj in objects %}
+                            <h4>{{ obj.get_full_name }}</h4>
+                         {% endfor %}
+                     </div>
+               </div>
+          </div>
+     </div>
+</section>
+{% endblock %}
+
+
+
+<!--{% extends 'admin/change_list.html' %}-->
+<!--{% load static %}-->
+<!--{% load crispy_forms_tags %}-->
+
+
+<!--{% block search %}-->
+<!--    {{ form|crispy }}-->
+<!--{% endblock %}-->
+
+
+<!--{% block result_list %}-->
+<!--<div class="results">-->
+<!--    <table id="result_list">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th scope="col" class="action-checkbox-column">-->
+<!--                <div class="text"><span><input type="checkbox" id="action-toggle"></span></div>-->
+<!--                <div class="clear"></div>-->
+<!--            </th>-->
+<!--            <th scope="col" class="column-username">-->
+<!--                <div class="text"><span>اسم المستخدم</span></div>-->
+<!--                <div class="clear"></div>-->
+<!--            </th>-->
+<!--            <th scope="col" class="column-email">-->
+<!--                <div class="text"><span>عنوان بريد إلكتروني</span></div>-->
+<!--                <div class="clear"></div>-->
+<!--            </th>-->
+<!--            <th scope="col" class="column-get_name">-->
+<!--                <div class="text"><span>الاسم</span></div>-->
+<!--                <div class="clear"></div>-->
+<!--            </th>-->
+<!--            <th scope="col" class="column-is_staff">-->
+<!--                <div class="text"><span>حالة الطاقم</span></div>-->
+<!--                <div class="clear"></div>-->
+<!--            </th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+
+<!--        <tbody>-->
+<!--        <tr>-->
+<!--            <td class="action-checkbox">-->
+<!--                <input type="checkbox" name="_selected_action" value="2" class="action-select">-->
+<!--            </td>-->
+<!--            <th class="field-username">-->
+<!--                <a href="/admin/accounts/user/2/change/">dora</a>-->
+<!--            </th>-->
+<!--            <td class="field-email">-->
+<!--                dora@gmail.com-->
+<!--            </td>-->
+<!--            <td class="field-get_name">-->
+<!--                dora one-->
+<!--            </td>-->
+<!--            <td class="field-is_staff">-->
+<!--                <img src="/static/admin/img/icon-no.svg" alt="False">-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+<!--{% endblock %}-->
+
+<!--{% block bodyclass %} {% endblock %}-->
+
+<!--{% block breadcrumbs %} {% endblock %}-->
+
+<!--{% block pagination %} hello {% endblock %}-->
+
+

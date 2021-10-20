@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <title>{% block title %} Techno Art {% endblock %}</title>
+        <meta charset="UTF-8">
+        {% include 'base/css.html' %}
+        {% block extra_style %} {% endblock %}
+    </head>
+    <body>
+        <!-- MENU -->
+        {% include 'base/nav.html' %}
+
+        <!-- MENU -->
+        {% block content %} {% endblock %}
+
+        <!-- FOOTER -->
+        {% include 'base/footer.html' %}
+
+        <!-- SCRIPTS -->
+        {% include 'base/js.html' %}
+        {% block extra_js %} {% endblock %}
+    </body>
+</html>

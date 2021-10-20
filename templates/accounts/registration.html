@@ -1,0 +1,19 @@
+{% extends "base_form.html" %}
+{% block title %} انشاء  مستخدم جديد {% endblock %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content_form %}
+    <style>
+        ul {
+            list-style-type:none;
+        }
+    </style>
+    <form method="POST" class="contact-form" >
+       <h4 style="text-align:center;">انشاء مستخدم جديد</h4>
+       {% csrf_token %}
+       {{ form|crispy }}
+       <div class="d-grid" style="margin-top:10px;"><button class="btn btn-dark btn-lg " id="submitButton" type="submit">تسجيل</button></div>
+    </form>
+{% endblock %}
