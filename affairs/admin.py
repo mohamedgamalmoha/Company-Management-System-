@@ -49,6 +49,8 @@ class MonthInlineAdmin(admin.TabularInline):
 
     def get_month_details(self, obj):
         print(obj)
+        if not obj or not obj.pk:
+            return '--'
         view_name = "affairs:single_month_attendance_details"
         link = reverse(view_name, args=[obj.pk])
         html = f'<input type="button" onclick="location.href=\'{link}\'"value = "تنزيل الملف" / > '

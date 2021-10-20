@@ -95,16 +95,17 @@ class ResidenceReportView(ExtendBaseListViewReport):
 
 def get_all_months_details(request, user_id):
     user = get_object_or_404(User, id=user_id)
-    months = Month.objects.filter(user=user)
-    return cls_to_func_csv_action(User, csv_queryset=months, csv_class=OverallResidenceReport)
+    queryset = Month.objects.filter(user=user)
+    return cls_to_func_csv_action(Month, csv_queryset=queryset, csv_class=OverallResidenceReport)
+
+
+def get_all_vacations_details(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    queryset = Vacations.objects.filter(user=user)
+    return cls_to_func_csv_action(Vacations, csv_queryset=queryset, csv_class=OverallVacationReport)
 
 
 def get_single_month_attendance_details(request, month_id):
     month = get_object_or_404(Month, id=month_id)
     return cls_to_func_csv_action(Month, csv_queryset=month, csv_class=SingleMonthReport)
 
-
-def get_all_vacations_details(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    queryset = Vacations.objects.filter(user=user)
-    return cls_to_func_csv_action(Month, csv_queryset=queryset, csv_class=OverallVacationReport)
