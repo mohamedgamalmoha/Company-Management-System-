@@ -48,7 +48,6 @@ class MonthInlineAdmin(admin.TabularInline):
     get_detail_link_view.short_description = 'المزيد من التفاصيل'
 
     def get_month_details(self, obj):
-        print(obj)
         if not obj or not obj.pk:
             return '--'
         view_name = "affairs:single_month_attendance_details"
@@ -59,8 +58,11 @@ class MonthInlineAdmin(admin.TabularInline):
 
 
 class MonthAdmin(admin.ModelAdmin):
+    list_display = ['get_user_name', 'activity', 'month']
     exclude = ('year', )
     inlines = (DayInlineAdmin, )
+    autocomplete_fields = ('user',)
+    search_fields = ('user__username', 'user__first_name', 'user__last_name', 'month')
     fieldsets = (
         ('المعلومات الاساسية',
          {'fields': ('user', 'activity', 'month')}
@@ -80,11 +82,12 @@ class MonthAdmin(admin.ModelAdmin):
                        'get_total_allowance', 'total_absence_hours', 'total_absence_deduction', 'total_salary',
                        'total_salary_deduction', 'net_salary')
 
-    def has_add_permission(self, request):
-        return False
-
     def has_delete_permission(self, request, obj=None):
         return False
+
+    def get_user_name(self, obj):
+        return obj.user.get_full_name() or 'لا يوجد'
+    get_user_name.short_description = 'الاسم'
 
 
 admin.site.register(Activity)
