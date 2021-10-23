@@ -2,6 +2,7 @@ from django.urls import reverse
 from django.contrib import admin
 from django.utils.html import format_html
 
+from .forms import MonthAddForm
 from .models import Activity, Location, Month, Day, Vacations
 
 
@@ -58,11 +59,12 @@ class MonthInlineAdmin(admin.TabularInline):
 
 
 class MonthAdmin(admin.ModelAdmin):
-    list_display = ['get_user_name', 'activity', 'month']
+    add_form = MonthAddForm
+    list_display = ['get_user_name', 'activity', 'month', 'get_year']
     exclude = ('year', )
     inlines = (DayInlineAdmin, )
     autocomplete_fields = ('user',)
-    search_fields = ('user__username', 'user__first_name', 'user__last_name', 'month')
+    search_fields = ('user__username', 'user__first_name', 'user__last_name', 'month', 'activity__name', 'year')
     fieldsets = (
         ('المعلومات الاساسية',
          {'fields': ('user', 'activity', 'month')}
@@ -80,7 +82,32 @@ class MonthAdmin(admin.ModelAdmin):
     readonly_fields = ('basic_salary', 'feeding_allowance', 'housing_allowance', 'transporting_allowance', 'total_loans',
                        'total_extra_work_hours', 'total_deduction', 'total_rewards', 'total_extra_work_hours_money',
                        'get_total_allowance', 'total_absence_hours', 'total_absence_deduction', 'total_salary',
-                       'total_salary_deduction', 'net_salary')
+                       'total_salary_deduction', 'net_salary', 'get_year')
+
+    def get_form(self, request, obj=None, **kwargs):
+        defaults = {}
+        if obj is None:
+            defaults['form'] = self.add_form
+        defaults.update(kwargs)
+        return super().get_form(request, obj, **defaults)
+
+    def get_inlines(self, request, obj):
+        return super().get_inlines(request, obj) if obj else ()
+
+    def get_readonly_fields(self, request, obj=None):
+        return super().get_readonly_fields(request, obj) if obj else ()
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = ((None, {'fields': list(self.add_form().fields.keys())}), )
+        return super().get_fieldsets(request, obj) if obj else fieldsets
+
+    def save_model(self, request, obj, form, change):
+        location_id = form.cleaned_data.get('location', '')
+        if obj.pk is None and str(location_id).isnumeric():
+            obj.save()
+            Day.objects.filter(month=obj).update(location=location_id)
+        else:
+            obj.save()
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -88,6 +115,10 @@ class MonthAdmin(admin.ModelAdmin):
     def get_user_name(self, obj):
         return obj.user.get_full_name() or 'لا يوجد'
     get_user_name.short_description = 'الاسم'
+
+    def get_year(self, obj):
+        return obj.year
+    get_year.short_description = 'السنة'
 
 
 admin.site.register(Activity)
