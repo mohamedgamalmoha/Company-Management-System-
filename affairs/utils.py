@@ -59,4 +59,4 @@ def get_range_months(start, end):
 
 MONTHS_NAMES = MONTHS_DICT.values()
 MONTHS_NUMBERS = MONTHS_DICT.keys()
-YEARS_NUMBERS = ((year, year) for year in years_range())
+YEARS_NUMBERS = ((str(year), str(year)) for year in years_range())

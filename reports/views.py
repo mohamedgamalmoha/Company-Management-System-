@@ -3,6 +3,7 @@ from django.views.generic import ListView
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.backends import get_user_model
 
+from accounts.models import Worker
 from affairs.models import Month, Day, Vacations
 from affairs.utils import MONTHS_NAMES, get_range_months
 from .csv import cls_to_func_csv_action
@@ -93,19 +94,18 @@ class ResidenceReportView(ExtendBaseListViewReport):
         )
 
 
-def get_all_months_details(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    queryset = Month.objects.filter(user=user)
+def get_all_months_details(request, worker_id):
+    worker = get_object_or_404(Worker, id=worker_id)
+    queryset = Month.objects.filter(worker=worker)
     return cls_to_func_csv_action(Month, csv_queryset=queryset, csv_class=OverallResidenceReport)
 
 
-def get_all_vacations_details(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    queryset = Vacations.objects.filter(user=user)
+def get_all_vacations_details(request, worker_id):
+    worker = get_object_or_404(Worker, id=worker_id)
+    queryset = Vacations.objects.filter(worker=worker)
     return cls_to_func_csv_action(Vacations, csv_queryset=queryset, csv_class=OverallVacationReport)
 
 
 def get_single_month_attendance_details(request, month_id):
     month = get_object_or_404(Month, id=month_id)
     return cls_to_func_csv_action(Month, csv_queryset=month, csv_class=SingleMonthReport)
-

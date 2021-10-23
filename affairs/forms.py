@@ -1,4 +1,5 @@
 from django import forms
+
 from .models import Month, Location
 
 
@@ -7,11 +8,15 @@ Month_Activity_Choices = (("---------", "---------"), *Activity_Choices)
 
 
 class MonthAddForm(forms.ModelForm):
-    location = forms.ChoiceField(choices=Month_Activity_Choices, label='الموقع', required=True)
+    location = forms.ChoiceField(choices=Month_Activity_Choices, label='الموقع', required=True,
+                                 help_text='سيتم اضافة الموقع لكل يوم في الشهر تلقائيا')
 
     class Meta:
         model = Month
-        exclude = ('year', )
+        fields = ('worker', 'activity', 'month', 'year', 'location')
+        labels = {
+            'activity': 'النشاط',
+        }
 
     def clean_location(self):
         location_id = self.cleaned_data.get('location')

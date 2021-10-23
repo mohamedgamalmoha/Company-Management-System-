@@ -35,11 +35,11 @@ class MonthInlineAdmin(admin.TabularInline):
     model = Month
     max_num = 31
     can_delete = False
-    fields = ('user', 'activity', 'month', 'get_detail_link_view', 'get_month_details')
+    fields = ('worker', 'activity', 'month', 'year', 'get_detail_link_view', 'get_month_details')
     readonly_fields = ('get_detail_link_view', 'get_month_details')
 
     def get_extra(self, request, obj=None, **kwargs):
-        return 0 if obj.user_months.all().exists() else 1
+        return 0 if obj.worker_months.all().exists() else 1
 
     def get_detail_link_view(self, obj):
         view_name = f"admin:{self.model._meta.app_label}_{self.model._meta.model_name}_change"
@@ -60,20 +60,22 @@ class MonthInlineAdmin(admin.TabularInline):
 
 class MonthAdmin(admin.ModelAdmin):
     add_form = MonthAddForm
-    list_display = ['get_user_name', 'activity', 'month', 'get_year']
+    list_display = ['__str__', 'activity', 'month', 'get_year']
     exclude = ('year', )
     inlines = (DayInlineAdmin, )
-    autocomplete_fields = ('user',)
-    search_fields = ('user__username', 'user__first_name', 'user__last_name', 'month', 'activity__name', 'year')
+    search_fields = ('worker__name', 'activity__name')
+    autocomplete_fields = ('worker', )
+    list_filter = ('activity__name', 'month')
     fieldsets = (
         ('المعلومات الاساسية',
-         {'fields': ('user', 'activity', 'month')}
+         {'fields': ('worker', 'activity', 'month',)}
          ),
         ('الاحوال المالية',
          {'fields': ('basic_salary',
                      ('feeding_allowance', 'housing_allowance', 'transporting_allowance', 'get_total_allowance'),
                      ('total_extra_work_hours', 'total_extra_work_hours_money'),
                      ('total_deduction', 'total_rewards', 'total_loans'),
+                     ('get_total_real_absence_days', 'get_total_absence_days'),
                      ('total_absence_hours', 'total_absence_deduction'),
                      ('total_salary', 'total_salary_deduction', 'net_salary'),
                      )}
@@ -82,7 +84,7 @@ class MonthAdmin(admin.ModelAdmin):
     readonly_fields = ('basic_salary', 'feeding_allowance', 'housing_allowance', 'transporting_allowance', 'total_loans',
                        'total_extra_work_hours', 'total_deduction', 'total_rewards', 'total_extra_work_hours_money',
                        'get_total_allowance', 'total_absence_hours', 'total_absence_deduction', 'total_salary',
-                       'total_salary_deduction', 'net_salary', 'get_year')
+                       'total_salary_deduction', 'net_salary', 'get_year', 'get_total_real_absence_days', 'get_total_absence_days')
 
     def get_form(self, request, obj=None, **kwargs):
         defaults = {}
@@ -94,12 +96,12 @@ class MonthAdmin(admin.ModelAdmin):
     def get_inlines(self, request, obj):
         return super().get_inlines(request, obj) if obj else ()
 
-    def get_readonly_fields(self, request, obj=None):
-        return super().get_readonly_fields(request, obj) if obj else ()
+    # def get_readonly_fields(self, request, obj=None):
+    #     return super().get_readonly_fields(request, obj) if obj else ()
 
-    def get_fieldsets(self, request, obj=None):
-        fieldsets = ((None, {'fields': list(self.add_form().fields.keys())}), )
-        return super().get_fieldsets(request, obj) if obj else fieldsets
+    # def get_fieldsets(self, request, obj=None):
+    #     fieldsets = ((None, {'fields': list(self.add_form().fields.keys())}), )
+    #     return super().get_fieldsets(request, obj) if obj else fieldsets
 
     def save_model(self, request, obj, form, change):
         location_id = form.cleaned_data.get('location', '')
@@ -113,7 +115,7 @@ class MonthAdmin(admin.ModelAdmin):
         return False
 
     def get_user_name(self, obj):
-        return obj.user.get_full_name() or 'لا يوجد'
+        return obj.username
     get_user_name.short_description = 'الاسم'
 
     def get_year(self, obj):
