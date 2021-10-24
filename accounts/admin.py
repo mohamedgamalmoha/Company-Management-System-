@@ -60,18 +60,16 @@ class WorkerAdmin(admin.ModelAdmin):
     inlines = (MonthInlineAdmin, VacationsInlineAdmin)
     fieldsets = (
         (None, {'fields': ('name', )}),
-        ('معلومات الاقامة', {'fields':
-                                 ('nationality', ('qid', 'qid_expiration_date'),
-                                  ('passport_number', 'expiration_date'),
-                                  'guarantee', 'settlement_id')}
+        ('معلومات الاقامة', {'fields': ('nationality', ('qid', 'qid_expiration_date'), ('passport_number',
+                                                                                        'expiration_date'), 'guarantee',
+                                        'settlement_id')}
          ),
         ('تفاصيل العقد', {'fields':
                               ('basic_salary',
                                ('feeding_allowance', 'housing_allowance', 'transporting_allowance'))}
          ),
-        ('طباعة', {'fields': ('get_all_months_details', 'get_all_vacations_details')}
-         ),
     )
+    extra_fieldsets = ('طباعة', {'fields': ('get_all_months_details', 'get_all_vacations_details')}),
     readonly_fields = ('get_all_months_details', 'get_all_vacations_details')
 
     def print_dunc(self, obj):
@@ -82,6 +80,12 @@ class WorkerAdmin(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         return super().get_readonly_fields(request, obj) if obj else ()
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super().get_fieldsets(request, obj)
+        all_fieldsets = list(fieldsets[:])
+        all_fieldsets.extend(self.extra_fieldsets)
+        return all_fieldsets if obj else fieldsets
 
     def get_all_months_details(self, obj):
         view_name = "affairs:get_all_months_details"
