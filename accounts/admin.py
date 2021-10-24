@@ -9,7 +9,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from .models import Worker
 from .utlis import permission_str
-from affairs.models import Activity, Location, Month, Day
+from affairs.models import Activity, Location, Month, Day, Vacations
 from affairs.admin import MonthInlineAdmin, VacationsInlineAdmin
 
 
@@ -88,6 +88,8 @@ class WorkerAdmin(admin.ModelAdmin):
         return all_fieldsets if obj else fieldsets
 
     def get_all_months_details(self, obj):
+        if not Month.objects.filter(worker=obj).exists():
+            return format_html(f'<input type="submit" disabled value="تنزيل الملف"')
         view_name = "affairs:get_all_months_details"
         link = reverse(view_name, args=[obj.pk])
         html = f'<input type="button" onclick="location.href=\'{link}\'"value = "تنزيل الملف" / > '
@@ -96,6 +98,8 @@ class WorkerAdmin(admin.ModelAdmin):
     get_all_months_details.short_description = 'تقرير شامل للمرتبات في كل الشهور '
 
     def get_all_vacations_details(self, obj):
+        if not Vacations.objects.filter(worker=obj).exists():
+            return format_html(f'<input type="submit" disabled value="تنزيل الملف"')
         view_name = "affairs:get_all_vacations_details"
         link = reverse(view_name, args=[obj.pk])
         html = f'<input type="button" onclick="location.href=\'{link}\'"value = "تنزيل الملف" / > '
