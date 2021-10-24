@@ -60,8 +60,7 @@ class MonthInlineAdmin(admin.TabularInline):
 
 class MonthAdmin(admin.ModelAdmin):
     add_form = MonthAddForm
-    list_display = ['__str__', 'activity', 'month', 'get_year']
-    exclude = ('year', )
+    list_display = ['__str__', 'activity', 'month', 'year']
     inlines = (DayInlineAdmin, )
     search_fields = ('worker__name', 'activity__name')
     autocomplete_fields = ('worker', )
@@ -96,12 +95,12 @@ class MonthAdmin(admin.ModelAdmin):
     def get_inlines(self, request, obj):
         return super().get_inlines(request, obj) if obj else ()
 
-    # def get_readonly_fields(self, request, obj=None):
-    #     return super().get_readonly_fields(request, obj) if obj else ()
+    def get_readonly_fields(self, request, obj=None):
+        return super().get_readonly_fields(request, obj) if obj else ()
 
-    # def get_fieldsets(self, request, obj=None):
-    #     fieldsets = ((None, {'fields': list(self.add_form().fields.keys())}), )
-    #     return super().get_fieldsets(request, obj) if obj else fieldsets
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = ((None, {'fields': list(self.add_form().fields.keys())}), )
+        return super().get_fieldsets(request, obj) if obj else fieldsets
 
     def save_model(self, request, obj, form, change):
         location_id = form.cleaned_data.get('location', '')
