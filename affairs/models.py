@@ -50,7 +50,7 @@ class Month(models.Model):
         unique_together = ('worker', 'month', 'year')
 
     def __str__(self):
-        return f'{self.month} / {self.year} - {self.worker.name}' if self.worker else self.pk
+        return f'{self.month} / {self.year} - {self.worker.name}' if self.worker else str(self.pk)
 
     def save(self, *args, **kwargs):
         if not self.year:
