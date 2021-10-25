@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .forms import MonthAddForm
+from .change_list import MonthChangeList
 from .models import Activity, Location, Month, Day, Vacations
 
 
@@ -22,7 +23,8 @@ class DayInlineAdmin(admin.TabularInline):
     model = Day
     extra = 0
     max_num = 31
-    readonly_fields = ('day_number', )
+    exclude = ('day_number', )
+    insert_after = 'month'
 
     def has_add_permission(self, request, obj):
         return False
@@ -58,6 +60,21 @@ class MonthInlineAdmin(admin.TabularInline):
     get_month_details.short_description = 'تنزيل التقرير لهذا الشهر'
 
 
+class VacationsAdmin(admin.ModelAdmin):
+    list_display = ('username', 'start_date', 'end_date', 'get_duration_in_days')
+    readonly_fields = ('get_duration_in_days', )
+    autocomplete_fields = ('worker', )
+
+    def get_readonly_fields(self, request, obj=None):
+        return super().get_readonly_fields(request, obj) if obj else ()
+
+    def get_duration_in_days(self, obj):
+        if hasattr(obj, 'duration_in_days'):
+            return obj.duration_in_days
+        return '--'
+    get_duration_in_days.short_description = 'غدد الايام'
+
+
 class MonthAdmin(admin.ModelAdmin):
     add_form = MonthAddForm
     list_display = ['__str__', 'activity', 'month', 'year']
@@ -83,7 +100,11 @@ class MonthAdmin(admin.ModelAdmin):
     readonly_fields = ('basic_salary', 'feeding_allowance', 'housing_allowance', 'transporting_allowance', 'total_loans',
                        'total_extra_work_hours', 'total_deduction', 'total_rewards', 'total_extra_work_hours_money',
                        'get_total_allowance', 'total_absence_hours', 'total_absence_deduction', 'total_salary',
-                       'total_salary_deduction', 'net_salary', 'get_year', 'get_total_real_absence_days', 'get_total_absence_days')
+                       'total_salary_deduction', 'net_salary', 'get_total_real_absence_days',
+                       'get_total_absence_days')
+
+    def get_changelist(self, request, **kwargs):
+        return MonthChangeList
 
     def get_form(self, request, obj=None, **kwargs):
         defaults = {}
@@ -117,11 +138,8 @@ class MonthAdmin(admin.ModelAdmin):
         return obj.username
     get_user_name.short_description = 'الاسم'
 
-    def get_year(self, obj):
-        return obj.year
-    get_year.short_description = 'السنة'
-
 
 admin.site.register(Activity)
 admin.site.register(Location)
 admin.site.register(Month, MonthAdmin)
+admin.site.register(Vacations, VacationsAdmin)

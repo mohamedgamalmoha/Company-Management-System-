@@ -16,6 +16,7 @@ class MonthAddForm(forms.ModelForm):
         fields = ('worker', 'activity', 'month', 'year', 'location')
         labels = {
             'activity': 'النشاط',
+            'worker': 'موظف'
         }
 
     def clean_location(self):

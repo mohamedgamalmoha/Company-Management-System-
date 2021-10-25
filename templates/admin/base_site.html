@@ -1,0 +1,25 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrastyle %}
+<style>
+    #ul_top_hypers li{
+        display: inline;
+        list-style: none;
+        padding: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block branding %}
+<ul id="ul_top_hypers">
+    <li><a href="{% url 'admin:affairs_month_changelist' %}">الحضور والانصراف</a></li>
+    <li><a href="{% url 'admin:accounts_worker_changelist' %}">الرواتب</a></li>
+    <li><a href="{% url 'admin:affairs_vacations_changelist' %}">رصيد الاجازات</a></li>
+    <li><a href="{% url 'admin:affairs_location_changelist' %}">الموقع</a></li>
+    <li><a href="{% url 'admin:accounts_worker_changelist' %}">الاقامة</a></li>
+</ul>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

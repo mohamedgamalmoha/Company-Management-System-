@@ -193,7 +193,7 @@ class Day(models.Model):
 
 
 class Vacations(models.Model):
-    worker = models.ForeignKey(Worker, on_delete=models.CASCADE, verbose_name='العميل', related_name='vacations', null=True)
+    worker = models.ForeignKey(Worker, on_delete=models.CASCADE, verbose_name='الموظف', related_name='vacations', null=True)
     reason = models.TextField('السبب')
     start_date = models.DateField('بداية من')
     end_date = models.DateField('نهاية الي')
@@ -201,6 +201,9 @@ class Vacations(models.Model):
     class Meta:
         verbose_name = 'الاجازات'
         verbose_name_plural = 'الاجازات'
+
+    def __str__(self):
+        return f'  اجازة {self.username}  '
 
     @property
     def username(self):
