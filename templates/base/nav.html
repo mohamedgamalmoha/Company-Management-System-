@@ -13,11 +13,11 @@
            <!-- MENU LINKS -->
            <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                     <li><a href="#feature" class="smoothScroll">الحضور والانصراف</a></li>
-                     <li><a href="#about" class="smoothScroll">الرواتب</a></li>
-                     <li><a href="#pricing" class="smoothScroll">رصيد الاجازات</a></li>
-                     <li><a href="#pricing" class="smoothScroll">الموقع</a></li>
-                     <li><a href="#pricing" class="smoothScroll">الاقامة</a></li>
+                     <li><a href="{% url 'admin:affairs_month_changelist' %}" class="smoothScroll">الحضور والانصراف</a></li>
+                     <li><a href="{% url 'admin:accounts_worker_changelist' %}" class="smoothScroll">الرواتب</a></li>
+                     <li><a href="{% url 'admin:affairs_vacations_changelist' %}" class="smoothScroll">رصيد الاجازات</a></li>
+                     <li><a href="{% url 'admin:affairs_location_changelist' %}" class="smoothScroll">الموقع</a></li>
+                     <li><a href="{% url 'admin:accounts_worker_changelist' %}" class="smoothScroll">الاقامة</a></li>
                      {% if request.user.is_authenticated %}
                          {% if request.user.is_superuser %}
                               <li><a href="{% url 'admin:index' %}" class="smoothScroll">الادارة</a></li>
