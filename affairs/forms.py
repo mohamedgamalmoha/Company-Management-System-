@@ -8,8 +8,9 @@ Month_Activity_Choices = (("---------", "---------"), *Activity_Choices)
 
 
 class MonthAddForm(forms.ModelForm):
-    location = forms.ChoiceField(choices=Month_Activity_Choices, label='الموقع', required=True,
-                                 help_text='سيتم اضافة الموقع لكل يوم في الشهر تلقائيا')
+    # location = forms.ChoiceField(choices=Month_Activity_Choices, label='الموقع', required=True,
+    #                              help_text='سيتم اضافة الموقع لكل يوم في الشهر تلقائيا')
+    location = forms.ModelChoiceField(queryset=Location.objects.all(), label='الموقع', help_text='سيتم اضافة الموقع لكل يوم في الشهر تلقائيا')
 
     class Meta:
         model = Month

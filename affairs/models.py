@@ -230,5 +230,5 @@ class Vacations(models.Model):
 def create_days_for_month(sender, instance, created, **kwargs):
     if created:
         days = instance.get_days_count()
-        for day in range(days):
+        for day in range(1, days + 1):
             Day.objects.create(month=instance, day_number=day)

@@ -125,12 +125,12 @@ class MonthAdmin(admin.ModelAdmin):
         return super().get_fieldsets(request, obj) if obj else fieldsets
 
     def save_model(self, request, obj, form, change):
-        location_id = form.cleaned_data.get('location', '')
-        if obj.pk is None and str(location_id).isnumeric():
+        location = form.cleaned_data.get('location')
+        if isinstance(obj, Month) and obj.pk is None and isinstance(location, Location):
             obj.save()
-            Day.objects.filter(month=obj).update(location=location_id)
-        else:
-            obj.save()
+            Day.objects.filter(month=obj).update(location=location)
+            return
+        obj.save()
 
     def has_delete_permission(self, request, obj=None):
         return False
