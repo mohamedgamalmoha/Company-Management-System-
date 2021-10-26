@@ -64,6 +64,7 @@ class VacationsAdmin(admin.ModelAdmin):
     list_display = ('username', 'start_date', 'end_date', 'get_duration_in_days')
     readonly_fields = ('get_duration_in_days', )
     autocomplete_fields = ('worker', )
+    list_filter = ('start_date', 'end_date')
 
     def get_readonly_fields(self, request, obj=None):
         return super().get_readonly_fields(request, obj) if obj else ()
@@ -81,7 +82,7 @@ class MonthAdmin(admin.ModelAdmin):
     inlines = (DayInlineAdmin, )
     search_fields = ('worker__name', 'activity__name')
     autocomplete_fields = ('worker', )
-    list_filter = ('activity__name', 'month')
+    list_filter = ('activity__name', 'month', 'year')
     fieldsets = (
         ('المعلومات الاساسية',
          {'fields': ('worker', 'activity', 'month',)}
