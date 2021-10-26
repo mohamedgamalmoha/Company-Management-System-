@@ -2,18 +2,27 @@
 
 {% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
 
+
 {% block extrastyle %}
 <style>
+    #ul_top_hypers{
+        justify-content: center;
+        left: 0px;
+        margin: 0 auto;
+    }
     #ul_top_hypers li{
         display: inline;
         list-style: none;
         padding: 10px;
+        width:100%;
+        justify-content: center;
     }
 </style>
 {% endblock %}
 
 {% block branding %}
 <ul id="ul_top_hypers">
+    <li><a href="{% url 'affairs:home' %}"> الرئيسية</a></li>
     <li><a href="{% url 'admin:affairs_month_changelist' %}">الحضور والانصراف</a></li>
     <li><a href="{% url 'admin:accounts_worker_changelist' %}">الرواتب</a></li>
     <li><a href="{% url 'admin:affairs_vacations_changelist' %}">رصيد الاجازات</a></li>
@@ -22,4 +31,5 @@
 </ul>
 {% endblock %}
 
-{% block nav-global %}{% endblock %}
+{% block nav-global %}<div style="color: var(--header-bg); "> -------------------------------------------------------------------------------------------------</div> {% endblock %}
+
