@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% load  static %}
-{% block content %}
 
-<!-- CONTACT -->
+{% block content %}
 <section id="contact" data-stellar-background-ratio="0.5" style="margin-top: 20px;">
      <div class="container">
           <div class="row">
@@ -15,58 +14,98 @@
                                    <div class="card-header" style="font-size: 25px;">الشؤون الوظيفية</div>
                                    <div class="card-body text-primary">
                                         <div class="container" style="display: inline;">
-                                             <a href="{% url 'admin:affairs_month_add' %}"><img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px"></a>
-                                             <a href="{% url 'admin:affairs_month_changelist' %}"><img src="{% static 'admin/img/icon-changelink.svg' %}" style="height10px; width10px"></a>
-                                             <h5 class="card-title" style="display: inline; font-size: 20px;">الحضور والانصراف</h5>
+                                             <h5 class="card-title" style="display: inline; font-size: 20px;">
+                                                  <a href="{% url 'affairs:month_creation' %}" style="color: #337ab7;"><img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px">
+                                                       تسجيل الحضور والانصراف
+                                                  </a>
+                                             </h5>
                                         </div>
                                         <div class="container" style="display: inline;">
-                                             <a href="{% url 'admin:affairs_location_add' %}"><img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px"></a>
-                                             <a href="{% url 'admin:affairs_location_changelist' %}"><img src="{% static 'admin/img/icon-changelink.svg' %}" style="height10px; width10px"></a>
-                                             <h5 class="card-title" style="display: inline; font-size: 20px;">ادارة الموقع</h5>
+                                             <h5 class="card-title" style="display: inline; font-size: 20px;">
+                                                  <a href="{% url 'affairs:location_creation' %}" style="color:#337ab7"><img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px">
+                                             اضافة موقع
+                                                  </a>
+                                             </h5>
                                         </div>
                                         <div class="container" style="display: inline;">
-                                             <a href="{% url 'admin:affairs_activity_add' %}"><img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px"></a>
-                                             <a href="{% url 'admin:affairs_activity_changelist' %}"><img src="{% static 'admin/img/icon-changelink.svg' %}" style="height10px; width10px"></a>
-                                             <h5 class="card-title" style="display: inline; font-size: 20px;">نشاط الشركة</h5>
+                                             <h5 class="card-title" style="display: inline; font-size: 20px;">
+                                                  <a href="{% url 'affairs:activity_creation' %}" style="color:#337ab7"><img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px">
+                                                  اضافة نشاط
+                                                  </a>
+                                             </h5>
                                         </div>
                                    </div>
                               </div>
                          </div>
-
                          <hr style="height:2px;border-width:0;color:gray;background-color:gray">
                          <div class="card-header" style="font-size: 25px;">التقارير</div>
                          <ul>
-                              <li style="display: inline; list-style: none; padding: 10px; font-size: 20px;"><a href="{% url 'admin:accounts_worker_changelist' %}" class="btn btn-info">الرواتب</a></li>
-                              <li style="display: inline; list-style: none; padding: 10px; font-size: 20px;"><a href="{% url 'admin:affairs_vacations_changelist' %}" class="btn btn-info">رصيد الاجازات</a></li>
-                              <li style="display: inline; list-style: none; padding: 10px; font-size: 20px;"><a href="{% url 'admin:affairs_month_changelist' %}" class="btn btn-info">الحضور والانصراف</a></li>
-                              <li style="display: inline; list-style: none; padding: 10px; font-size: 20px;"><a href="{% url 'admin:affairs_location_changelist' %}" class="btn btn-info">الموقع</a></li>
-                              <li style="display: inline; list-style: none; padding: 10px; font-size: 20px;"><a href="{% url 'admin:accounts_worker_changelist' %}" class="btn btn-info">الاقامة</a></li>
+                              <li style="display: inline; list-style: none; padding: 10px; font-size: 20px;"><a href="{% url 'affairs:accommodation_report' %}" class="btn btn-info"> الاقامات</a></li>
+                              <li style="display: inline; list-style: none; padding: 10px; font-size: 20px;"><a id="report-btn" class="btn btn-info"> الرواتب</a></li>
+                              <li style="display: inline; list-style: none; padding: 10px; font-size: 20px;"><a href="{% url 'affairs:activity_list' %}" class="btn btn-info"> الانشطة</a></li>
+                              <li style="display: inline; list-style: none; padding: 10px; font-size: 20px;"><a href="{% url 'affairs:location_list' %}" class="btn btn-info"> المواقع</a></li>
                          </ul>
-
                          <hr style="height:2px;border-width:0;color:gray;background-color:gray">
                          <div class="card border-primary mb-3" style="max-width: 18rem; display: inline-block; margin: 20px;;">
                               <div class="card-header" style="font-size: 25px;">الشؤون الادارية</div>
                               <div class="card-body text-primary">
                                    <div class="container" style="display: inline;">
-                                        <a href="{% url 'admin:accounts_user_add' %}"><img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px"></a>
-                                        <a href="{% url 'admin:accounts_user_changelist' %}"><img src="{% static 'admin/img/icon-changelink.svg' %}" style="height10px; width10px"></a>
+                                        <a href="{% url 'accounts:user_creation' %}"><img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px"></a>
+                                        <a href="{% url 'accounts:user_list' %}"><img src="{% static 'admin/img/icon-changelink.svg' %}" style="height10px; width10px"></a>
                                         <h5 class="card-title" style="display: inline; font-size: 20px;">الادارة</h5>
                                    </div>
                                    <div class="container" style="display: inline;">
-                                        <a href="{% url 'admin:accounts_worker_add' %}"><img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px"></a>
-                                        <a href="{% url 'admin:accounts_worker_changelist' %}"><img src="{% static 'admin/img/icon-changelink.svg' %}" style="height10px; width10px"></a>
-                                        <h5 class="card-title" style="display: inline; font-size: 20px;">العمال</h5>
+                                        <a href="{% url 'accounts:worker_creation' %}"><img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px"></a>
+                                        <a href="{% url 'accounts:worker_list' %}"><img src="{% static 'admin/img/icon-changelink.svg' %}" style="height10px; width10px"></a>
+                                        <h5 class="card-title" style="display: inline; font-size: 20px;">الموظفين والعمال</h5>
                                    </div>
                               </div>
                          </div>
                          {% else %}
                          <h5 class="card-title" style="display: inline; font-size: 20px;">شركة تكنو ارت للمقاولات</h5>
                          {% endif %}
-
                     </div>
                </div>
           </div>
      </div>
 </section>
 
+<input type="hidden" value="{% url 'affairs:multi_worker_report' %}" id="multi">
+<input type="hidden" value="{% url 'affairs:single_month_report' %}" id="single">
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+window.onload = function(){
+     var btn = $('#report-btn');
+
+     var div = document.createElement('div');
+
+     var createA = document.createElement('a');
+     var createAText = document.createTextNode('شهري تفصيلي لشخص واحد          ');
+     createA.setAttribute('href', $('#single').val());
+     createA.style.padding = '20px';
+     createA.appendChild(createAText);
+
+     var createB = document.createElement('a');
+     var createBText = document.createTextNode('الرواتب لاكثر من شخص');
+     createB.setAttribute('href', $('#multi').val());
+     createB.style.padding = '20px';
+     createB.appendChild(createBText);
+
+     div.appendChild(createA);
+     div.appendChild(createB);
+
+     btn.on('click', function(e){
+          swal({
+               title: 'تقرير الرواتب',
+               content: div,
+               button: 'الغاء'
+          });
+     });
+};
+</script>
 {% endblock %}

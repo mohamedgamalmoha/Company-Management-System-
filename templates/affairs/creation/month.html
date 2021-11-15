@@ -1,0 +1,67 @@
+{% extends "base_form.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content_form %}
+    <form method="POST" class="contact-form" style="width:65%; align:center; margin: 0 auto; margin-top:35px;  direction: rtl;" id="month-form">
+       <h4 style="text-align:center;">{{ title }}</h4>
+       {% csrf_token %}
+       {{ form|crispy }}
+       <div class="d-grid" style="margin-top:10px;">
+           <button class="btn btn-dark btn-lg " id="submitButton" type="submit">انشاء</button>
+       </div>
+    </form>
+    <input id="url" value="{% url 'affairs:month_uniqueness' %}" type="hidden">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+window.onload = function(){
+
+  var form = $('#month-form');
+  var url = $('#url').val();
+  const message = 'العميل موجود بالفعل هل تريدالذهاب الي العميل';
+  const a_message = 'الذهاب الي العميل';
+
+  var on_submit_function = function(e){
+    e.preventDefault();
+
+    var id_worker = $('#id_worker').val();
+    var month = $('#id_month').val();
+    var year = $('#id_year').val();
+
+    $.ajax({
+      url: url,
+      method:'GET',
+      data: {
+        worker_id: id_worker,
+        month: month,
+        year: year
+      },
+      success: function(data){
+        if(data.is_existed){
+          var createA = document.createElement('a');
+          var createAText = document.createTextNode(a_message);
+          createA.setAttribute('href', '/month-day-inline/' + data.month_id);
+          createA.appendChild(createAText);
+          swal({
+            title: message,
+            content: createA,
+            button: 'الغاء'
+          });
+        } else {
+            form.off('submit', on_submit_function);
+            form.submit();
+        };
+      }
+    })
+  };
+  form.on('submit', on_submit_function);
+};
+</script>
+{% endblock %}

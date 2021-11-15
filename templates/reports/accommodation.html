@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+    <br><h4> الشهور</h4>
+  <form method="GET" class="contact-form" style="width:45%; align:center; margin: 0 auto; margin-top:35px;  direction: rtl;">
+       <h4 style="text-align:center;">{{ title }}</h4>
+       {{ form.as_p }}
+       <div class="d-grid" style="margin-top:10px; ">
+           <button class="btn btn-dark btn-lg " id="submitButton" type="submit">بحث</button>
+       </div>
+    </form>
+
+    {% if workers %}
+    <table class="table table-striped" style="width:85%; align:center; margin: 0 auto; margin-top:40px;  direction: rtl;">
+      <thead>
+        <tr>
+          <th scope="col">الاسم</th>
+          <th scope="col">الجنسية</th>
+          <th scope="col">الكفالة</th>
+          <th scope="col">تاريخ انتهاء الجواز</th>
+          <th scope="col">تاريخ انتهاء QID</th>
+          <th scope="col">المزيد</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for worker in workers %}
+        <tr>
+          <th scope="row">{{ worker.name }}</th>
+          <th>{{ worker.nationality }}</th>
+          <th>{{ worker.guarantee }}</th>
+          <th>{{ worker.expiration_date }}</th>
+          <th>{{ worker.qid_expiration_date }}</th>
+          <th><a href="{{ worker.get_absolute_url }}"> المزيد </a></th>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+{% endblock %}

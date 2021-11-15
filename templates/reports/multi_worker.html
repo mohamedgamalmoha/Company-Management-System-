@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+    <br><h4> الشهور</h4>
+  <form method="GET" class="contact-form" style="width:45%; align:center; margin: 0 auto; margin-top:35px;  direction: rtl;">
+       <h4 style="text-align:center;">{{ title }}</h4>
+       {{ form.as_p }}
+       <div class="d-grid" style="margin-top:10px; ">
+           <button class="btn btn-dark btn-lg " id="submitButton" type="submit">بحث</button>
+       </div>
+    </form>
+
+    {% if months %}
+    <table class="table table-striped" style="width:45%; align:center; margin: 0 auto; margin-top:65px;  direction: rtl;">
+      <thead>
+        <tr>
+          <td>الاسم</td>
+          <td>النشاط</td>
+          <td>الشهر</td>
+          <td>السنة</td>
+          <td>المزيد</td>
+        </tr>
+      </thead>
+      <tbody>
+      {% for month in months %}
+        <tr id="{{ month.id }}">
+          <td scope="row">{{ month }}</td>
+          <td>{{ month.activity }}</td>
+          <td>{{ month.month }}</td>
+          <td>{{ month.year }}</td>
+          <td><a href="{{ month.get_absolute_url }}"> المزيد </a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+    <button class="btn btn-dark btn-lg " id="print">طباعة</button>
+    <input type="hidden" id="url" value="{% url 'affairs:multi_worker_report_print' %}">
+<!--    {% if workers %}-->
+<!--    <table class="table table-striped" style="width:85%; align:center; margin: 0 auto; margin-top:40px;  direction: rtl;">-->
+<!--      <thead>-->
+<!--        <tr>-->
+<!--          <th scope="col">الاسم</th>-->
+<!--          <th scope="col">الجنسية</th>-->
+<!--          <th scope="col">الكفالة</th>-->
+<!--          <th scope="col">المزيد</th>-->
+<!--        </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      {% for worker in workers %}-->
+<!--        <tr>-->
+<!--          <th scope="row">{{ worker.name }}</th>-->
+<!--          <th>{{ worker.nationality }}</th>-->
+<!--          <th>{{ worker.guarantee }}</th>-->
+<!--          <th><a href="{{ worker.get_absolute_url }}"> المزيد </a></th>-->
+<!--        </tr>-->
+<!--      {% endfor %}-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--    {% endif %}-->
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/jquery.js' %}"></script>
+<script>
+window.onload = function(){
+
+    function getIDs(){
+        let result = [];
+        let options = $('tr');
+        options.each(function(index){
+          id = options[index].id;
+          console.log(id)
+          if (!isNaN(id))
+            result.push(id);
+        });
+        return result.toString();
+    };
+
+    var btn = $('#print');
+    var url = $('#url').val();
+
+    btn.on('click', function(e){
+        let ids = getIDs();
+        let new_url = window.location.origin + url +'?ids=' + ids;
+        console.log(new_url)
+        window.location = new_url;
+    });
+};
+</script>
+{% endblock %}

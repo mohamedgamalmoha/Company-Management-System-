@@ -1,0 +1,63 @@
+{% extends "base_form.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content_form %}
+    <form method="POST" class="contact-form" style="width:65%; align:center; margin: 0 auto; margin-top:35px;  direction: rtl;">
+       <h4 style="text-align:center;">{{ title }}</h4>
+       {% csrf_token %}
+       {{ form.as_p }}
+       <div class="d-grid" style="margin-top:10px;">
+           <button class="btn btn-dark btn-lg " id="submitButton" type="submit">نغير</button>
+       </div>
+    </form>
+    <br><h4> الشهور</h4>
+    {% if months %}
+    <table class="table table-striped" style="direction: rtl">
+      <thead>
+        <tr>
+          <th scope="col">النشاط</th>
+          <th scope="col">الشهر</th>
+          <th scope="col">السنة</th>
+          <th scope="col">المزيد</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for month in months %}
+        <tr>
+          <th scope="row">{{ month.activity }}</th>
+          <th>{{ month.month }}</th>
+          <th>{{ month.year }}</th>
+            <th><a href="{{ month.get_absolute_url }}">المزيد</a></th>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+ <br><h4> الاجازات</h4>
+    {% if vacations %}
+    <table class="table table-striped" style="direction: rtl">
+      <thead>
+        <tr>
+          <th scope="col">السبب</th>
+          <th scope="col">بداية من</th>
+          <th scope="col">نهاية الي</th>
+          <th scope="col">عدد الايام</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for vacation in vacations %}
+        <tr>
+          <th scope="row">{{ vacation.reason }}</th>
+          <th>{{ vacation.start_date }}</th>
+          <th>{{ vacation.end_date }}</th>
+          <th>{{ vacation.duration_in_days}}</th>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+
+
+{% endblock %}

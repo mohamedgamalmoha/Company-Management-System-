@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+
+{% block content %}
+<div id="print-content">
+    {% if months %}
+    <table class="table table-striped" style="width:45%; align:center; margin: 0 auto; margin-top:100px;  direction: rtl;">
+      <thead>
+        <tr>
+          <td>الاسم</td>
+          <td>الشهر</td>
+          <td>السنة</td>
+          <td>المواقع</td>
+          <td>النشاط</td>
+          <td>الراتب الاساسي</td>
+          <td>اجمالي خصم</td>
+          <td> اجمالي المكافئات  </td>
+          <td>صافي الراتب</td>
+        </tr>
+      </thead>
+      <tbody>
+      {% for month in months %}
+        <tr id="{{ month.id }}">
+          <td scope="row">{{ month.worker.name }}</td>
+          <td>{{ month.month }}</td>
+          <td>{{ month.year }}</td>
+          <td>{{ month.all_days_location|join:" // " }} </td>
+          <td>{{ month.activity }}</td>
+          <td>{{ month.basic_salary }}</td>
+          <td>{{ month.total_salary_deduction }}</td>
+          <td>{{ month.total_rewards }}</td>
+          <td>{{ month.net_salary }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+</div>
+<a id="print-btn" class="btn btn-dark btn-lg" style="direction: ltr; display: inline; left: 10px;"> طباعة </a>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+window.onload = function(){
+   var btnID = '#print-btn';
+   var originalContents = $("body").html();
+   var printContents = $('#print-content').html();
+
+   function addPrintEvent(e){
+       $("body").html(printContents);
+       window.print();
+       $("body").html(originalContents);
+       $(btnID).on('click', addPrintEvent);
+   };
+
+   $(btnID).on('click', addPrintEvent);
+};
+</script>
+{% endblock %}
+
+

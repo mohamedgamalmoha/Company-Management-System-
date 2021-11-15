@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import reverse
 from django.contrib.auth.models import AbstractUser
 
 
@@ -10,6 +11,9 @@ class User(AbstractUser):
         unique_together = ['first_name', 'last_name']
         verbose_name = 'الادارة'
         verbose_name_plural = 'الادارة'
+
+    def get_absolute_url(self):
+        return reverse('accounts:user_detail', kwargs={'pk': self.pk})
 
 
 class Worker(models.Model):
@@ -34,3 +38,6 @@ class Worker(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('accounts:worker_detail', kwargs={'pk': self.pk})

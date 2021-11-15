@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+  <form method="GET" class="contact-form" style="width:45%; align:center; margin: 0 auto; margin-top:100px;  direction: rtl; position: relative">
+       <h4 style="text-align:center;">{{ title }}</h4>
+       {{ form.as_p }}
+       <div class="d-grid" style="margin-top:10px; ">
+           <button class="btn btn-dark btn-lg " id="submitButton" type="submit">بحث</button>
+           <a href="{% url 'accounts:user_creation' %}" class="btn btn-dark btn-lg" style="direction: ltr; display: inline; left: 10px;">
+               اضافة
+               <img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px">
+           </a>
+       </div>
+
+    </form>
+
+    {% if users %}
+    <table class="table table-striped" style="width:85%; align:center; margin: 0 auto; margin-top:40px;  direction: rtl;">
+      <thead>
+        <tr>
+          <th scope="col">الاسم الاول</th>
+          <th scope="col">الاسم الثاني</th>
+          <th scope="col">تاريخ الانظمام</th>
+          <th scope="col">المزيد</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for user in users %}
+        <tr>
+          <th scope="row">{{ user.firstname }}</th>
+          <th>{{ user.lastname }}</th>
+          <th>{{ user.date_joined }}</th>
+          <th><a href="{{ user.get_absolute_url }}"> المزيد </a></th>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+{% endblock %}

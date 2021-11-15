@@ -35,7 +35,7 @@ def get_list_months(month, greater=True):
     if index is None:
         raise ValueError('The passed month doesnt match')
 
-    rng = range(index, 13) if greater else range(0, index+1)
+    rng = range(index, 13) if greater else range(index+1)
 
     return [(MONTHS_DICT.get(i)[0], MONTHS_DICT.get(i)[0]) for i in rng]
 
@@ -57,6 +57,37 @@ def get_range_months(start, end):
     return [(MONTHS_DICT.get(i)[0], MONTHS_DICT.get(i)[0]) for i in range(start_index, end_index)]
 
 
+def get_range_months_by_indexes(max_index: int, min_index: int):
+
+    if not str(max_index).isnumeric() or not str(min_index).isnumeric():
+        raise ValueError('parameters must be numeric')
+
+    if max_index > 12 or min_index > 12:
+        raise ValueError('numbers must be less tgan 12')
+
+    if max_index < min_index:
+        max_index, min_index = min_index, max_index
+
+    return (MONTHS_DICT[index][index] for index in range(min_index, max_index))
+
+
+def get_range_months_lte_index(index: int):
+    if not str(index).isnumeric():
+        raise ValueError('index must be numeric')
+    if index > 12:
+        raise ValueError('numbers must be less than 12')
+    return (MONTHS_DICT.get(ind)[0] for ind in range(1, index+1))
+
+
+def get_range_months_gte_index(index: int):
+    if not str(index).isnumeric():
+        raise ValueError('index must be numeric')
+    if index > 12:
+        raise ValueError('numbers must be less tgan 12')
+    return (MONTHS_DICT.get(ind)[0] for ind in range(index, len(MONTHS_DICT) + 1))
+
+
 MONTHS_NAMES = MONTHS_DICT.values()
+MONTHS_NAMES_ENG = (month[0] for month in MONTHS_DICT.values())
 MONTHS_NUMBERS = MONTHS_DICT.keys()
-YEARS_NUMBERS = ((str(year), str(year)) for year in years_range())
+YEARS_NUMBERS = tuple((str(year), str(year)) for year in years_range())

@@ -1,0 +1,84 @@
+{% extends "base_form.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content_form %}
+
+    <form method="POST" class="contact-form" style="width:65%; align:center; margin: 0 auto; margin-top:35px;  direction: rtl;">
+       <h4 style="text-align:center;">{{ title }}</h4>
+       {% csrf_token %}
+       {{ form.as_p }}
+       <div class="d-grid" style="margin-top:10px;">
+           <button class="btn btn-dark btn-lg " id="submitButton" type="submit">نغير</button>
+       </div>
+    </form>
+    <br><h4> الايام</h4>
+
+    {% if days %}
+    <table class="table table-striped" style="direction: rtl">
+        <tr>
+          <th scope="col">اليوم</th>
+          <td scope="col">الموقع</td>
+          <td scope="col">الحضور</td>
+          <td scope="col">عدد سعات عمل اضافية</td>
+          <td scope="col">الخصم</td>
+          <td scope="col">المكافئات</td>
+          <td scope="col">السلف</td>
+        </tr>
+
+      {% for day in days %}
+        <tr>
+          <th scope="row">{{ day.day_number }}</th>
+          <td>{{ day.location }}</td>
+          <td>{{ day.attendance }}</td>
+          <td>{{ day.extra_work_hours }}</td>
+          <td>{{ day.deduction }}</td>
+          <td>{{ day.rewards }}</td>
+          <td>{{ day.loans }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+
+    <br><h4> تفاصيل</h4>
+
+
+<table class="table  table-bordered" style="direction: rtl">
+  <tbody>
+    <tr>
+      <td><label>الراتب الاساسي</label></td>
+      <td>{{ form.instance.basic_salary}}</td>
+    </tr>
+    <tr>
+      <td><label>بدل غذاء</label><p>{{ form.instance.feeding_allowance}}</p></td>
+      <td><label>بدل سكن</label><p>{{ form.instance.housing_allowance}}</p></td>
+      <td><label>بدل انتقال</label><p>{{ form.instance.transporting_allowance}}</p></td>
+      <td><label>اجمالي البدالات</label><p>{{ form.instance.get_total_allowance}}</p></td>
+    </tr>
+    <tr>
+      <td><label>اجمالي عدد الساعات الاضافية</label><p>{{ form.instance.total_extra_work_hours}}</p></td>
+      <td><label>اجمالي قيمة الساعات الاضافية</label><p>{{ form.instance.total_extra_work_hours_money}}</p></td>
+    </tr>
+    <tr>
+      <td><label>اجمالي الخصومات</label><p>{{ form.instance.total_deduction}}</p></td>
+      <td><label>اجمالي المكافئات</label><p>{{ form.instance.total_rewards}}</p></td>
+      <td><label>اجمالي السلف</label><p>{{ form.instance.total_loans}}</p></td>
+    </tr>
+    <tr>
+      <td><label>اجمالي ايام الغياب الفعلية</label><p>{{ form.instance.get_total_real_absence_days}}</p></td>
+      <td><label>اجمالي ايام الغياب</label><p>{{ form.instance.get_total_absence_days}}</p></td>
+    </tr>
+    <tr>
+      <td><label>عدد ساعات الغياب</label><p>{{ form.instance.total_absence_hours}}</p></td>
+      <td><label>اجمالي خصم ساعات الغياب</label><p>{{ form.instance.total_absence_deduction}}</p></td>
+    </tr>
+    <tr>
+      <td><label>اجمالي المرتب</label><p>{{ form.instance.total_salary}}</p></td>
+      <td><label>اجمالي الخصم</label><p>{{ form.instance.total_salary_deduction}}</p></td>
+      <td><label>صاقي المرتب</label><p>{{ form.instance.net_salary}}</p></td>
+    </tr>
+  </tbody>
+</table>
+
+{% endblock %}

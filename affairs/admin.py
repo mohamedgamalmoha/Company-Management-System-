@@ -2,7 +2,7 @@ from django.urls import reverse
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .forms import MonthAddForm
+from .forms import MonthCreationForm
 from .change_list import MonthChangeList
 from .models import Activity, Location, Month, Day, Vacations
 
@@ -77,7 +77,7 @@ class VacationsAdmin(admin.ModelAdmin):
 
 
 class MonthAdmin(admin.ModelAdmin):
-    add_form = MonthAddForm
+    add_form = MonthCreationForm
     list_display = ['__str__', 'activity', 'month', 'year']
     inlines = (DayInlineAdmin, )
     search_fields = ('worker__name', 'activity__name')

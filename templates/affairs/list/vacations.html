@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+    <br><h4> الشهور</h4>
+  <form method="GET" class="contact-form" style="width:45%; align:center; margin: 0 auto; margin-top:35px;  direction: rtl;">
+       <h4 style="text-align:center;">{{ title }}</h4>
+       {{ form.as_p }}
+       <div class="d-grid" style="margin-top:10px; ">
+           <button class="btn btn-dark btn-lg " id="submitButton" type="submit">بحث</button>
+         <a href="{% url 'affairs:vacations_creation' %}" class="btn btn-dark btn-lg" style="direction: ltr; display: inline; left: 10px;">
+               اضافة
+               <img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px">
+           </a>
+       </div>
+    </form>
+
+    {% if vacations %}
+    <table class="table table-striped" style="width:45%; align:center; margin: 0 auto; margin-top:65px;  direction: rtl;">
+      <thead>
+        <tr>
+          <td>الاسم</td>
+          <td>من</td>
+          <td>الي</td>
+          <td>المدة بالايام</td>
+          <td>المزيد</td>
+        </tr>
+      </thead>
+      <tbody>
+      {% for vacation in vacations %}
+        <tr>
+          <td scope="row">{{ vacation.worker }}</td>
+          <td>{{ vacation.start_date }}</td>
+          <td>{{ vacation.end_date }}</td>
+          <td>{{ vacation.duration_in_days }}</td>
+          <td><a href="{{ vacation.get_absolute_url }}"> المزيد </a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+
+{% endblock %}

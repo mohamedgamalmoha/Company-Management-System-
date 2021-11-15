@@ -8,11 +8,14 @@
         {% block extra_style %} {% endblock %}
     </head>
     <body>
-        <!-- MENU -->
+        <!-- Nav -->
         {% include 'base/nav.html' %}
 
-        <!-- MENU -->
-        {% block content %} {% endblock %}
+        <!-- Content -->
+        <div id="page-container" style="min-height:100vh;">
+		    {% block content %}
+		    {% endblock %}
+        </div>
 
         <!-- FOOTER -->
         {% include 'base/footer.html' %}

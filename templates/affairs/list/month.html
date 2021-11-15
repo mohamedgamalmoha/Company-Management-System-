@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+    <br><h4> الشهور</h4>
+  <form method="GET" class="contact-form" style="width:45%; align:center; margin: 0 auto; margin-top:35px;  direction: rtl;">
+       <h4 style="text-align:center;">{{ title }}</h4>
+       {{ form.as_p }}
+       <div class="d-grid" style="margin-top:10px; ">
+           <button class="btn btn-dark btn-lg " id="submitButton" type="submit">بحث</button>
+           <a href="{% url 'affairs:month_creation' %}" class="btn btn-dark btn-lg" style="direction: ltr; display: inline; left: 10px;">
+               اضافة
+               <img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px">
+           </a>
+       </div>
+    </form>
+
+    {% if months %}
+    <table class="table table-striped" style="width:45%; align:center; margin: 0 auto; margin-top:65px;  direction: rtl;">
+      <thead>
+        <tr>
+          <td>الاسم</td>
+          <td>النشاط</td>
+          <td>الشهر</td>
+          <td>السنة</td>
+          <td>المزيد</td>
+        </tr>
+      </thead>
+      <tbody>
+      {% for month in months %}
+        <tr>
+          <td scope="row">{{ month }}</td>
+          <td>{{ month.activity }}</td>
+          <td>{{ month.month }}</td>
+          <td>{{ month.year }}</td>
+          <td><a href="{{ month.get_absolute_url }}"> المزيد </a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+
+{% endblock %}

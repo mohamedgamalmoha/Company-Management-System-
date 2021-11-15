@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models.aggregates import Sum
 from django.db.models.signals import post_save
 from django.utils import timezone
+from django.shortcuts import reverse
 from django.dispatch import receiver
 from django.core.validators import ValidationError
 from django.contrib.auth.backends import get_user_model
@@ -26,6 +27,9 @@ class Activity(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('affairs:activity_detail', kwargs={'pk': self.pk})
+
 
 class Location(models.Model):
     name = models.CharField('اسم الموقع', max_length=150)
@@ -36,6 +40,9 @@ class Location(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('affairs:location_detail', kwargs={'pk': self.pk})
 
 
 class Month(models.Model):
@@ -52,10 +59,22 @@ class Month(models.Model):
     def __str__(self):
         return f'{self.month} / {self.year} - {self.worker.name}' if self.worker else str(self.pk)
 
+    def get_absolute_url(self):
+        return reverse('affairs:month_detail', kwargs={'pk': self.pk})
+
     def save(self, *args, **kwargs):
         if not self.year:
             self.year = timezone.now().year
         return super().save(*args, **kwargs)
+    
+    def all_days_location(self):
+        locations_lst = []
+        days = self.months.filter(location__isnull=False).distinct()
+        for day in days:
+            location_name = day.location.name
+            if location_name and location_name not in locations_lst:
+                locations_lst.append(location_name)
+        return locations_lst
 
     def get_month_number(self):
         for month_num in MONTHS_DICT:
@@ -191,6 +210,9 @@ class Day(models.Model):
     def __str__(self):
         return f'{self.day_number}'
 
+    def get_absolute_url(self):
+        return reverse('affairs:day_detail', kwargs={'pk': self.pk})
+
 
 class Vacations(models.Model):
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE, verbose_name='الموظف', related_name='vacations', null=True)
@@ -204,6 +226,9 @@ class Vacations(models.Model):
 
     def __str__(self):
         return f'  اجازة {self.username}  '
+
+    def get_absolute_url(self):
+        return reverse('affairs:vacations_detail', kwargs={'pk': self.pk})
 
     @property
     def username(self):

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static admin_urls i18n %}
+{% block title %} {{ title }} {% endblock %}
+
+{% block extra_style %}
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/nav_sidebar.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/rtl.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/responsive.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/responsive_rtl.css' %}">
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+<h2> hello </h2>
+<h2 style="width:65%; align:center; margin: 0 auto; margin-top:35px; direction: rtl">تفاصيل الشهر:</h2>
+<table class="table  table-borderless" style="width:65%; align:center; margin: 0 auto; direction: rtl; margin-bottom: 0px;">
+  <tbody>
+    <tr>
+      <td><label>العامل</label></td>
+      <td>{{ month.worker.name}}</td>
+    </tr>
+    <tr>
+      <td><label>الشهر</label><p>{{ month.month}}</p></td>
+      <td><label>السنة</label><p>{{ month.year}}</p></td>
+    </tr>
+  </tbody>
+</table>
+<a class="btn btn-dark btn-lg " href="{{ month.get_absolute_url }}" style="align:center; margin: 0 auto; direction: rtl; margin-left: 270px; margin-top:20px;"> تعديل الشهر</a>
+<form method="post" enctype="multipart/form-data" style="width:65%; align:center; margin: 0 auto; direction: rtl; margin-top: 20px;">
+  {% csrf_token %}
+  {{ form.management_form }}
+  {{ form.non_form_errors.as_ul }}
+  <h2>الأيام:</h2>
+
+  <table id="formset" class="form">
+    {% for single_form in form.forms %}
+    {% if forloop.first %}
+    <thead>
+    <tr>
+      {% for field in single_form.visible_fields %}
+      <th>{{ field.label|capfirst }}</th>
+      {% endfor %}
+    </tr>
+    </thead>
+    {% endif %}
+    <tr class="{% cycle row1 row2 %}">
+      {% for field in single_form.visible_fields %}
+      <td>
+        {% if forloop.first %}
+          {% for hidden in single_form.hidden_fields %}
+            {{ hidden }}
+          {% endfor %}
+        {% endif %}
+        {{ field.errors.as_ul }}
+        {{ field }}
+      </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+  <br>
+  <button type="submit" class="btn btn-dark btn-lg " style="align:center; margin: 0 auto; direction: rtl; margin-left: 270px; margin-top:20px;">حفظ التعديلات </button>
+</form>
+<h2 style="width:65%; align:center; margin: 0 auto; margin-top:35px;  direction: rtl; margin-top:20px; ">مفردات المرتب:</h2>
+<table class="table  table-bordered" style="width:65%; align:center; margin: 0 auto; direction: rtl">
+  <tbody>
+    <tr>
+      <td><label>الراتب الاساسي</label></td>
+      <td>{{ month.basic_salary}}</td>
+    </tr>
+    <tr>
+      <td><label>بدل غذاء</label><p>{{ month.feeding_allowance}}</p></td>
+      <td><label>بدل سكن</label><p>{{ month.housing_allowance}}</p></td>
+      <td><label>بدل انتقال</label><p>{{ month.transporting_allowance}}</p></td>
+      <td><label>اجمالي البدالات</label><p>{{ month.get_total_allowance}}</p></td>
+    </tr>
+    <tr>
+      <td><label>اجمالي عدد الساعات الاضافية</label><p>{{ month.total_extra_work_hours}}</p></td>
+      <td><label>اجمالي قيمة الساعات الاضافية</label><p>{{ month.total_extra_work_hours_money}}</p></td>
+    </tr>
+    <tr>
+      <td><label>اجمالي الخصومات</label><p>{{ month.total_deduction}}</p></td>
+      <td><label>اجمالي المكافئات</label><p>{{ month.total_rewards}}</p></td>
+      <td><label>اجمالي السلف</label><p>{{ month.total_loans}}</p></td>
+    </tr>
+    <tr>
+      <td><label>اجمالي ايام الغياب الفعلية</label><p>{{ month.get_total_real_absence_days}}</p></td>
+      <td><label>اجمالي ايام الغياب</label><p>{{ month.get_total_absence_days}}</p></td>
+    </tr>
+    <tr>
+      <td><label>عدد ساعات الغياب</label><p>{{ month.total_absence_hours}}</p></td>
+      <td><label>اجمالي خصم ساعات الغياب</label><p>{{ month.total_absence_deduction}}</p></td>
+    </tr>
+    <tr>
+      <td><label>اجمالي المرتب</label><p>{{ month.total_salary}}</p></td>
+      <td><label>اجمالي الخصم</label><p>{{ month.total_salary_deduction}}</p></td>
+      <td><label>صاقي المرتب</label><p>{{ month.net_salary}}</p></td>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}
