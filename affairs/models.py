@@ -82,6 +82,12 @@ class Month(models.Model):
                 return month_num
         return None
 
+    def get_month_arabic(self):
+        for tpl in MONTHS_DICT.values():
+            if self.month in tpl:
+                return tpl[1]
+        return None
+
     def get_days_count(self):
         return monthrange(int(self.year), self.get_month_number())[1]
 
@@ -212,6 +218,12 @@ class Day(models.Model):
 
     def get_absolute_url(self):
         return reverse('affairs:day_detail', kwargs={'pk': self.pk})
+
+    def get_attendance_arabic(self):
+        return 'نعم' if self.attendance else 'لا'
+
+    def get_location_arabic(self):
+        return self.location or 'لا يوجد'
 
 
 class Vacations(models.Model):

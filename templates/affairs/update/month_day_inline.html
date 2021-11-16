@@ -21,7 +21,7 @@
       <td>{{ month.worker.name}}</td>
     </tr>
     <tr>
-      <td><label>الشهر</label><p>{{ month.month}}</p></td>
+      <td><label>الشهر</label><p>{{ month.get_month_arabic}}</p></td>
       <td><label>السنة</label><p>{{ month.year}}</p></td>
     </tr>
   </tbody>
@@ -61,6 +61,8 @@
   </table>
   <br>
   <button type="submit" class="btn btn-dark btn-lg " style="align:center; margin: 0 auto; direction: rtl; margin-left: 270px; margin-top:20px;">حفظ التعديلات </button>
+  <a class="btn btn-dark btn-lg " href="{% url 'affairs:month_creation' %}" style="color: white; align:center; margin: 0 auto; direction: rtl; margin-left: 270px; margin-top:20px;">اضافة اخر</a>
+  <a class="btn btn-dark btn-lg " href="{% url 'affairs:home' %}"  style="color: white; margin: 0 auto; direction: rtl;">الرئيسية </a>
 </form>
 <h2 style="width:65%; align:center; margin: 0 auto; margin-top:35px;  direction: rtl; margin-top:20px; ">مفردات المرتب:</h2>
 <table class="table  table-bordered" style="width:65%; align:center; margin: 0 auto; direction: rtl">

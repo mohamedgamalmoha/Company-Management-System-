@@ -33,7 +33,7 @@ class MonthCreationView(SuccessMessageMixin, CreateView, AdminAuthMixIn):
         month = form.save()
         location = form.cleaned_data.get('location')
         Day.objects.filter(month=month).update(location=location)
-        return redirect(reverse('affairs:month_detail', kwargs={'pk': month.pk}))
+        return redirect(reverse('affairs:month_day_inline', kwargs={'pk': month.pk}))
 
 
 class MonthDetailView(UpdateView, AdminAuthMixIn):

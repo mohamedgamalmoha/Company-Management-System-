@@ -5,8 +5,27 @@
 
 
 {% block content %}
-<div id="print-content">
-    <table class="table table-striped" style="table-layout:fixed; align:center; margin: 0 auto; margin-top:100px;  direction: rtl;">
+<style>
+    p {
+       padding: 0px;
+       margin: 0px;
+    };
+    label {
+       padding: 0px;
+       margin: 0px;
+    };
+</style>
+<div id="print-content" style="margin-top:100px; ">
+    <table class="table  table-borderless" style="width:65%; align:center; margin: 0 auto; direction: rtl; margin-bottom: 0px;">
+        <tbody>
+        <tr>
+            <td><label>الاسم</label><p>{{ month.worker.name}}</p></td>
+            <td><label>الشهر</label><p>{{ month.get_month_arabic}}</p></td>
+            <td><label>السنة</label><p>{{ month.year}}</p></td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-bordered" style="table-layout:fixed; align:center; margin: 0 auto;  direction: rtl;">
         <tr>
             <th>اليوم</th>
             {% for day in days %}
@@ -17,7 +36,7 @@
          <tr>
             <th>الحضور</th>
             {% for day in days %}
-            <td>{{ day.attendance }}</td>
+            <td>{{ day.get_attendance_arabic }}</td>
             {% endfor %}
         </tr>
 
@@ -25,6 +44,13 @@
             <th>المشروع</th>
             {% for day in days %}
             <td>{{ month.activity }}</td>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <th>الموقع</th>
+            {% for day in days %}
+            <td>{{ day.get_location_arabic }}</td>
             {% endfor %}
         </tr>
 
@@ -57,7 +83,7 @@
         </tr>
     </table>
 
-<table class="table  table-bordered" style="width:65%; align:center; margin: 0 auto; direction: rtl">
+<table class="table  table-bordered" style="width:65%; height: 20%; align:center; margin: 0 auto; direction: rtl">
   <tbody>
     <tr>
       <td><label>الراتب الاساسي</label></td>

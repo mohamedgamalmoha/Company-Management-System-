@@ -9,7 +9,9 @@
        {% csrf_token %}
        {{ form.as_p }}
        <div class="d-grid" style="margin-top:10px;">
-           <button class="btn btn-dark btn-lg " id="submitButton" type="submit">نغير</button>
+           <button class="btn btn-dark btn-lg " id="submitButton" type="submit">حفظ التعديلات</button>
+           <a class="btn btn-dark btn-lg " href="{% url 'accounts:worker_creation' %}" style="color: white; direction: rtl; ">اضافة اخر</a>
+           <a class="btn btn-dark btn-lg " href="{% url 'affairs:home' %}"  style="color: white; margin: 0 auto; direction: rtl;">الرئيسية </a>
        </div>
     </form>
     <br><h4> الشهور</h4>
@@ -34,7 +36,10 @@
       {% endfor %}
       </tbody>
     </table>
+    {% else %}
+        <font color="red">لا بوجد شهور لهذا العامل</font>
     {% endif %}
+
  <br><h4> الاجازات</h4>
     {% if vacations %}
     <table class="table table-striped" style="direction: rtl">
@@ -57,7 +62,8 @@
       {% endfor %}
       </tbody>
     </table>
+    {% else %}
+        <font color="red">لا بوجد اجازات لهذا العامل</font>
     {% endif %}
-
 
 {% endblock %}
