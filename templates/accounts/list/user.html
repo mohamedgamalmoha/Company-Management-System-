@@ -31,8 +31,8 @@
       <tbody>
       {% for user in users %}
         <tr>
-          <th scope="row">{{ user.firstname }}</th>
-          <th>{{ user.lastname }}</th>
+          <th scope="row">{{ user.first_name }}</th>
+          <th>{{ user.last_name }}</th>
           <th>{{ user.date_joined }}</th>
           <th><a href="{{ user.get_absolute_url }}"> المزيد </a></th>
         </tr>

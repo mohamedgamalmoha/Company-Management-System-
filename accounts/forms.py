@@ -29,21 +29,28 @@ class RegistrationForm(UserCreationForm):
 
 
 class UserCreationForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
         self.fields['user_permissions'].choices = get_permissions_labels()
 
+    field_order = ('username', 'first_name', 'last_name',  'email',  'is_staff',  'is_superuser', 'is_active',
+                   'activity', 'user_permissions', 'password')
+
     class Meta:
         model = User
         fields = '__all__'
-        exclude = ('groups', 'last_login', 'date_joined')
+        exclude = ('groups', 'last_login', 'date_joined', 'password')
+        labels = {'activity': 'النشاط التابع له'}
+        help_texts = {'activity': 'يحدد ما إذا كان المستخدم محاسب لنشاط معين'}
         widgets = {
             'user_permissions': CustomSelectMultiple,
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control'})
+            'password': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'activity': forms.Select(attrs={'class': 'form-control'})
         }
 
 
@@ -66,6 +73,7 @@ class WorkerCreationForm(forms.ModelForm):
             'feeding_allowance': forms.TextInput(attrs={'class': 'form-control'}),
             'housing_allowance': forms.TextInput(attrs={'class': 'form-control'}),
             'transporting_allowance': forms.TextInput(attrs={'class': 'form-control'}),
+            'start_working_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
         }
 
 

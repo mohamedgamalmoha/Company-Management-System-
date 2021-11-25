@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (MultiWorkerReportView, AccommodationReportView, MultiWorkerReportPrintView,
-                    SingleMonthReportView, SingleMonthReportPrintView)
+                    SingleMonthReportView, SingleMonthReportPrintView, LocationReportView)
 
 
 urlpatterns = [
@@ -11,4 +11,6 @@ urlpatterns = [
     path('single-month-report-print/<int:pk>/', SingleMonthReportPrintView.as_view(), name='single_month_report_print'),
 
     path('accommodation-report/', AccommodationReportView.as_view(), name='accommodation_report'),
+
+    path('location-report/', LocationReportView.as_view(), name='location_report'),
 ]

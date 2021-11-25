@@ -4,6 +4,12 @@
 {% block title %} {{ title }} {% endblock %}
 
 {% block content_form %}
+<style>
+    #id_user_permissions {
+        list-display: none;
+        list-style-type: none;
+    }
+</style>
     <form method="POST" class="contact-form" style="width:65%; align:center; margin: 0 auto; margin-top:35px;  direction: rtl;">
        <h4 style="text-align:center;">{{ title }}</h4>
        {% csrf_token %}

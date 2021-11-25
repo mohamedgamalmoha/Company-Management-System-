@@ -1,10 +1,14 @@
 from django.db import models
 from django.shortcuts import reverse
+from django.core.validators import RegexValidator
 from django.contrib.auth.models import AbstractUser
 
 
-class User(AbstractUser):
+MaxNUmberLength = RegexValidator(r'^[0-9]{9}', 'مطلوب عشر ارقام صجيجة قثط')
 
+
+class User(AbstractUser):
+    activity = models.ForeignKey('affairs.Activity', on_delete=models.SET_NULL, null=True, blank=True)
     REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
 
     class Meta:
@@ -20,12 +24,12 @@ class Worker(models.Model):
     name = models.CharField('الاسم', max_length=150, unique=True)
 
     nationality = models.CharField('الجنسية', max_length=150)
-    qid = models.CharField('QID', max_length=150)
+    qid = models.CharField('QID', max_length=150, validators=[MaxNUmberLength, ])
     qid_expiration_date = models.DateField(' تاريخ انتهاء QID', null=True)
     passport_number = models.CharField('رقم الجواز', max_length=10, null=True)
     expiration_date = models.DateField(' تاريخ انتهاء الجواز', null=True)
     guarantee = models.CharField('الكفالة', max_length=150)
-    settlement_id = models.CharField('اي دي الاقامة', max_length=150)
+    start_working_date = models.DateField(' تاريخ مباشرة العمل ', null=True)
 
     basic_salary = models.DecimalField('الراتب الاساسي', max_digits=20, decimal_places=2, default=0.00)
     feeding_allowance = models.DecimalField('بدل غذاء', max_digits=20, decimal_places=2, default=0.00)

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from main_reports.urls import urlpatterns as main_repo_urls
+from reports.urls import urlpatterns as main_repo_urls
 from .views import (home, MonthCreationView, MonthDetailView, ActivityCreationView, ActivityDetailView,
                     LocationCreationView, LocationDetailView, VacationsCreationView, VacationsDetailView,
                     MonthListView, ActivityListView, LocationListView, VacationsListView, MonthDayInlineView,

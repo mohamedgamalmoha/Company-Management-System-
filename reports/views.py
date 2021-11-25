@@ -4,12 +4,19 @@ from accounts.models import Worker
 from .utils import is_valid_choice
 from affairs.models import Month, Day
 from .base_views import BaseSearchList, BaseWorkerReportView
-from .forms import MultiWorkerForm, AccommodationFrom, SingleMonthForm
+from .forms import MultiWorkerForm, AccommodationFrom, SingleMonthForm, LocationForm
 
 
 class MultiWorkerReportView(BaseWorkerReportView):
     form_class = MultiWorkerForm
     template_name = 'reports/multi_worker.html'
+
+    def get_queryset(self):
+        queryset = super(MultiWorkerReportView, self).get_queryset()
+        activity = self.request.user.activity
+        if activity:
+            queryset = queryset.filter(activity=activity)
+        return queryset
 
     def get_worker_queryset(self, form,  queryset):
         workers = form.cleaned_data.get('workers')
@@ -48,6 +55,13 @@ class SingleMonthReportView(BaseSearchList):
             queryset = queryset.filter(year=year)
         return queryset
 
+    def get_queryset(self):
+        queryset = super(SingleMonthReportView, self).get_queryset()
+        activity = self.request.user.activity
+        if activity:
+            queryset = queryset.filter(activity=activity)
+        return queryset
+
 
 class SingleMonthReportPrintView(DetailView):
     model = Month
@@ -75,3 +89,32 @@ class AccommodationReportView(BaseSearchList):
         if is_valid_choice(str(qid_expiration_date) if qid_expiration_date is not None else None):
             queryset = queryset.filter(qid_expiration_date__lte=qid_expiration_date)
         return queryset
+
+
+class LocationReportView(BaseSearchList):
+    model = Month
+    form_class = LocationForm
+    context_object_name = 'months'
+    template_name = 'reports/location_report.html'
+
+    def get_form_queryset(self, form,  queryset):
+        location = form.cleaned_data.get('location')
+        month = form.cleaned_data.get('month')
+        year = form.cleaned_data.get('year')
+        if location:
+            queryset = queryset.filter(months__location=location)
+        if is_valid_choice(str(month) if month is not None else None):
+            queryset = queryset.filter(month=month)
+        if is_valid_choice(str(year) if year is not None else None):
+            queryset.filter(year=year)
+        return queryset
+
+    def get_queryset(self):
+        queryset = super(LocationReportView, self).get_queryset()
+        activity = self.request.user.activity
+        if activity:
+            queryset = queryset.filter(activity=activity)
+        return queryset
+
+
+# MyModel._meta.get_field('foo').choices

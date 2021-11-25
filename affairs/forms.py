@@ -2,7 +2,7 @@ from django import forms
 from django.forms.models import inlineformset_factory
 
 from accounts.models import Worker
-from main_reports.forms import BaseForm
+from reports.forms import BaseForm
 from .widgets import CustomCheckboxInput
 from .utils import MONTHS_NAMES, YEARS_NUMBERS
 from .models import Month, Location, Activity, Vacations,  Day

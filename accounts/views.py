@@ -10,7 +10,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from .models import Worker
 from .decorators import AdminAuthMixIn
 from affairs.models import Month, Vacations
-from main_reports.base_views import BaseSearchList
+from reports.base_views import BaseSearchList
 from .forms import RegistrationForm, UserCreationForm, WorkerCreationForm, WorkerListForm, UserListForm
 
 
@@ -56,7 +56,7 @@ class WorkerCreationView(SuccessMessageMixin, CreateView, AdminAuthMixIn):
     form_class = WorkerCreationForm
     template_name = 'accounts/creation/worker.html'
     success_message = 'تم ادخال البيانات بطريقة صحيحة'
-    extra_context = {'title': 'انشاء عامل جديد'}
+    extra_context = {'title': 'اضافة عامل جديد'}
 
     def get_success_url(self):
         return self.object.get_absolute_url()
@@ -80,8 +80,13 @@ class WorkerDetailView(UpdateView, AdminAuthMixIn):
     def get_context_data(self, **kwargs):
         context = super(WorkerDetailView, self).get_context_data(**kwargs)
         obj = self.get_object()
-        context['months'] = Month.objects.filter(worker=obj)
         context['vacations'] = Vacations.objects.filter(worker=obj)
+
+        activity = self.request.user.activity
+        if activity:
+            context['months'] = Month.objects.filter(worker=obj, activity=activity)
+        else:
+            context['months'] = Month.objects.filter(worker=obj)
         return context
 
 

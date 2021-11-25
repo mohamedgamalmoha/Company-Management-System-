@@ -50,3 +50,10 @@ class AccommodationFrom(forms.Form):
                                       label='تاريخ انتهاء الجواز', required=False, help_text='سيتم عرض ما قبل التاريخ المحدد')
     qid_expiration_date = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'})
                                           , label='تاريخ انتهاء QID', required=False,  help_text='سيتم عرض ما قبل التاريخ المحدد')
+
+
+class LocationForm(BaseForm):
+    month = forms.ChoiceField(choices=MONTHS_NAMES, label='الشهر', widget=forms.Select(attrs={'class': 'form-control'}))
+    year = forms.ChoiceField(choices=YEARS_NUMBERS, label='السنة', widget=forms.Select(attrs={'class': 'form-control'}))
+    location = forms.ModelChoiceField(queryset=Location.objects.all(),
+                                      widget=forms.Select(attrs={'class': 'form-control'}), label='الموقع', )

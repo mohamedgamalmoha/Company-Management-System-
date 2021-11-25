@@ -7,8 +7,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from .decorators import ajax_get_required
 from accounts.decorators import AdminAuthMixIn
-from main_reports.utils import is_valid_choice
-from main_reports.base_views import BaseSearchList
+from reports.utils import is_valid_choice
+from reports.base_views import BaseSearchList
 from .models import Month, Location, Activity, Vacations, Day
 from .forms import (MonthCreationForm, MonthUpdateForm, ActivityCreationForm, LocationCreationForm, DayUpdateForm,
                     VacationsCreationForm, MonthListFrom, ActivityListForm, LocationListForm, VacationsListForm,
@@ -117,7 +117,7 @@ class LocationDetailView(UpdateView):
     model = Location
     form_class = LocationCreationForm
     template_name = 'accounts/update/user.html'
-    extra_context = {'title': 'تعديل الشهر'}
+    extra_context = {'title': 'تعديل الموقع'}
     success_url = '/'
 
 
@@ -187,7 +187,7 @@ class LocationListView(BaseSearchList):
     context_object_name = 'locations'
     template_name = 'affairs/list/location.html'
     extra_context = {
-        'title': 'النشاطات'
+        'title': 'المواقع'
     }
 
     def get_form_queryset(self, form, queryset):

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+    <br><h4> الشهور</h4>
+  <form method="GET" class="contact-form" style="width:45%; align:center; margin: 0 auto; margin-top:35px;  direction: rtl;">
+       <h4 style="text-align:center;">{{ title }}</h4>
+       {{ form.as_p }}
+       <div class="d-grid" style="margin-top:10px; ">
+           <button class="btn btn-dark btn-lg " id="submitButton" type="submit">بحث</button>
+       </div>
+    </form>
+
+    {% if months %}
+    <table class="table table-striped" style="width:45%; align:center; margin: 0 auto; margin-top:65px;  direction: rtl;">
+      <thead>
+        <tr>
+          <td>الاسم</td>
+          <td>الاساسي</td>
+          <td>المكافئات</td>
+          <td>الغياب</td>
+          <td>الخصم</td>
+          <td>السلف</td>
+          <td>الصافي</td>
+        </tr>
+      </thead>
+      <tbody>
+      {% for month in months %}
+        <tr>
+          <td scope="row">{{ month.worker.name }}</td>
+          <td>{{ month.basic_salary }}</td>
+          <td>{{ month.total_rewards }}</td>
+          <td>{{ month.absence_days_count }}</td>
+          <td>{{ month.total_salary_deduction }}</td>
+          <td>{{ month.total_loans }}</td>
+          <td>{{ month.net_salary }}</td>
+
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+
+{% endblock %}
