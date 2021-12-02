@@ -40,17 +40,42 @@ class UserCreationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = '__all__'
-        exclude = ('groups', 'last_login', 'date_joined', 'password')
-        labels = {'activity': 'النشاط التابع له'}
+        exclude = ('groups', 'last_login', 'date_joined')
+        labels = {'activity': 'النشاط التابع له', 'password': 'كلمة السؤ'}
         help_texts = {'activity': 'يحدد ما إذا كان المستخدم محاسب لنشاط معين'}
         widgets = {
-            'user_permissions': CustomSelectMultiple,
+            'password': forms.PasswordInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'activity': forms.Select(attrs={'class': 'form-control'}),
+            'user_permissions': CustomSelectMultiple
+        }
+
+
+class UserUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['user_permissions'].choices = get_permissions_labels()
+
+    field_order = ('username', 'first_name', 'last_name',  'email',  'is_staff',  'is_superuser', 'is_active',
+                   'activity', 'user_permissions', 'password')
+
+    class Meta:
+        model = User
+        fields = '__all__'
+        exclude = ('groups', 'last_login', 'date_joined', 'password')
+        labels = {'activity': 'النشاط التابع له'}
+        help_texts = {'activity': 'يحدد ما إذا كان المستخدم محاسب لنشاط معين'}
+        widgets = {
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),
-            'activity': forms.Select(attrs={'class': 'form-control'})
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'activity': forms.Select(attrs={'class': 'form-control'}),
+            'user_permissions': CustomSelectMultiple
         }
 
 
