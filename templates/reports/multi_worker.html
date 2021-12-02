@@ -37,7 +37,7 @@
       </tbody>
     </table>
     {% endif %}
-    <button class="btn btn-dark btn-lg " id="print">طباعة</button>
+    <button class="btn btn-dark btn-lg " id="print" style="align:center; margin: 0 auto;  direction: rtl; margin-left: 30%; margin-top: 20px; ">طباعة</button>
     <input type="hidden" id="url" value="{% url 'affairs:multi_worker_report_print' %}">
 <!--    {% if workers %}-->
 <!--    <table class="table table-striped" style="width:85%; align:center; margin: 0 auto; margin-top:40px;  direction: rtl;">-->
@@ -73,7 +73,6 @@ window.onload = function(){
         let options = $('tr');
         options.each(function(index){
           id = options[index].id;
-          console.log(id)
           if (!isNaN(id))
             result.push(id);
         });
@@ -85,8 +84,8 @@ window.onload = function(){
 
     btn.on('click', function(e){
         let ids = getIDs();
+        if (ids.length == 0) return alert("لا يوجد شهور ليتم طباعتها");
         let new_url = window.location.origin + url +'?ids=' + ids;
-        console.log(new_url)
         window.location = new_url;
     });
 };

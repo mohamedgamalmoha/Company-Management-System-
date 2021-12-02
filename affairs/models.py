@@ -166,7 +166,7 @@ class Month(models.Model):
     total_loans.short_description = 'اجمالي السلف'
 
     def total_absence_hours(self):
-        return 2 * 8 * self.absence_days_count
+        return 8 * self.absence_days_count
     total_absence_hours.short_description = 'عدد ساعات الغياب'
 
     @decimal_limit
@@ -179,7 +179,7 @@ class Month(models.Model):
     get_total_real_absence_days.short_description = 'اجمالي ايام الغياب الفعلية'
 
     def get_total_absence_days(self):
-        return self.absence_days_count * 2
+        return self.absence_days_count
     get_total_absence_days.short_description = 'اجمالي ايام الغياب'
 
     # Total section

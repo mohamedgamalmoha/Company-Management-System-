@@ -48,9 +48,10 @@ class UserCreationView(SuccessMessageMixin, CreateView, AdminAuthMixIn):
     template_name = 'accounts/creation/user.html'
     success_message = 'تم ادخال البيانات بطريقة صحيحة'
     extra_context = {'title': 'انشاء مستخدم جديد'}
+    success_url = reverse_lazy('accounts:user_creation')
 
     def get_success_url(self):
-        return self.object.get_absolute_url()
+        return self.success_url
 
 
 class UserDetailView(UpdateView, AdminAuthMixIn):
