@@ -1,7 +1,7 @@
 from django import forms
 
 from accounts.models import Worker
-from affairs.models import Location
+from affairs.models import Location, Activity
 from accounts.widgets import CustomSelectMultiple
 from affairs.utils import MONTHS_NAMES, YEARS_NUMBERS
 from .widgets import SelectMonthYearWidget, CustomChoiceField
@@ -33,9 +33,17 @@ class WorkerBaseForm(BaseForm):
                                  label='الي', required=False)
 
 
-class MultiWorkerForm(WorkerBaseForm):
+class MultiWorkerForm(BaseForm):
+    UN_VALIDATED_FIELDS = ('start_date', 'end_date', 'activity')
+    field_order = ['activity', 'start_date', 'end_date', 'workers']
     workers = forms.ModelMultipleChoiceField(queryset=Worker.objects.all(), widget=CustomSelectMultiple,
                                              label='العمال', required=True)
+    activity = forms.ModelChoiceField(queryset=Activity.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}),
+                                      label='النشاط', required=False)
+    start_date = CustomChoiceField(widget=SelectMonthYearWidget(attrs={'class': 'form-control'}),
+                                   label='من', required=False)
+    end_date = CustomChoiceField(widget=SelectMonthYearWidget(attrs={'class': 'form-control'}),
+                                 label='الي', required=False)
 
 
 class SingleMonthForm(BaseForm):

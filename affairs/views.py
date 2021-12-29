@@ -76,7 +76,7 @@ class MonthDayInlineView(SuccessMessageMixin, SingleObjectMixin, FormView, Admin
         return super().get_context_data(**kwargs)
 
     def get_success_url(self):
-        return reverse('affairs:month_detail', kwargs={'pk': self.object.pk})
+        return reverse('affairs:single_month_report_print', kwargs={'pk': self.object.pk})
 
     def form_valid(self, form):
         form.save()
@@ -116,7 +116,7 @@ class LocationCreationView(SuccessMessageMixin, CreateView):
 class LocationDetailView(UpdateView):
     model = Location
     form_class = LocationCreationForm
-    template_name = 'accounts/update/user.html'
+    template_name = 'affairs/update/base.html'
     extra_context = {'title': 'تعديل الموقع'}
     success_url = '/'
 

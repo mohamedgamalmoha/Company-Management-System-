@@ -20,7 +20,16 @@ class MultiWorkerReportView(BaseWorkerReportView):
 
     def get_worker_queryset(self, form,  queryset):
         workers = form.cleaned_data.get('workers')
-        return queryset.filter(worker__in=workers) if workers else queryset
+        if workers:
+            queryset = queryset.filter(worker__in=workers)
+        return queryset
+
+    def get_form_queryset(self, form, queryset):
+        queryset = super(MultiWorkerReportView, self).get_form_queryset(form, queryset)
+        activity = form.cleaned_data.get('activity')
+        if activity:
+            queryset = queryset.filter(activity=activity)
+        return queryset
 
 
 class MultiWorkerReportPrintView(TemplateView):

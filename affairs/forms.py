@@ -77,7 +77,14 @@ class LocationListForm(forms.Form):
 
 
 class DayUpdateForm(forms.ModelForm):
-    field_order = ['day_number', 'location', 'attendance', 'extra_work_hours', 'deduction', 'rewards', 'loans']
+    field_order = ['day_number', 'day_name', 'location', 'attendance', 'extra_work_hours', 'deduction', 'rewards', 'loans']
+    day_name = forms.CharField(required=False, label="اليوم")
+
+    def __init__(self, *args, **kwargs):
+        super(DayUpdateForm, self).__init__(*args, **kwargs)
+        day_name_field = self.fields.get('day_name')
+        day_name_field.widget.attrs = {'class': 'form-control', 'readonly': True}
+        day_name_field.initial = self.instance.get_day_name()
 
     class Meta:
         model = Day
@@ -85,7 +92,7 @@ class DayUpdateForm(forms.ModelForm):
         widgets = {
             'location': forms.Select(attrs={'class': 'form-control'}),
             'attendance': CustomCheckboxInput(attrs={'class': 'custom-control-input'}),
-            'day_number':  forms.NumberInput(attrs={'class': 'form-control', 'readonly': True, 'style': "width: 50px"},),
+            'day_number':  forms.NumberInput(attrs={'class': 'form-control', 'readonly': True, 'style': "width: 50px"}),
             'extra_work_hours': forms.NumberInput(attrs={'class': 'form-control'}),
             'deduction': forms.NumberInput(attrs={'class': 'form-control'}),
             'rewards': forms.NumberInput(attrs={'class': 'form-control'}),

@@ -8,6 +8,8 @@
   <form method="GET" class="contact-form" style="width:45%; align:center; margin: 0 auto; margin-top:35px;  direction: rtl;">
        <h4 style="text-align:center;">{{ title }}</h4>
        {{ form.as_p }}
+       <button class="btn btn-dark btn-lg" id="selectAll"> تحديد الكل </button>
+       <button class="btn btn-dark btn-lg" id="deleteAll"> عدم تحديد الكل </button>
        <div class="d-grid" style="margin-top:10px; ">
            <button class="btn btn-dark btn-lg " id="submitButton" type="submit">بحث</button>
        </div>
@@ -88,6 +90,22 @@ window.onload = function(){
         let new_url = window.location.origin + url +'?ids=' + ids;
         window.location = new_url;
     });
+
+    document.getElementById('selectAll').onclick = function selectAll(){
+      var ele=document.getElementsByName('workers');
+      for(var i=0; i<ele.length; i++){
+        if(ele[i].type=='checkbox')
+          ele[i].checked=true;
+        }
+    };
+
+     document.getElementById('deleteAll').onclick = function deleteAll(){
+        var ele=document.getElementsByName('workers');
+        for(var i=0; i<ele.length; i++){
+            if(ele[i].type=='checkbox')
+                ele[i].checked=false;
+        }
+    };
 };
 </script>
 {% endblock %}

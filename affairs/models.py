@@ -1,11 +1,14 @@
+from datetime import datetime
 from calendar import monthrange
 
 from django.db import models
 from django.db.models.aggregates import Sum
 from django.db.models.signals import post_save
-from django.utils import timezone
+from django.conf import settings
 from django.shortcuts import reverse
 from django.dispatch import receiver
+from django.utils.formats import date_format
+from django.utils import translation, timezone
 from django.core.validators import ValidationError
 from django.contrib.auth.backends import get_user_model
 
@@ -154,7 +157,7 @@ class Month(models.Model):
     total_extra_work_hours_money.short_description = 'اجمالي قيمة الساعات الاضافية'
 
     def total_deduction(self):
-        return self.get_days_query().aggregate(Sum('deduction')).get('deduction__sum') or 0
+        return (self.get_days_query().aggregate(Sum('deduction')).get('deduction__sum') or 0) * self.hour_paid
     total_deduction.short_description = 'اجمالي الخصومات'
 
     def total_rewards(self):
@@ -224,6 +227,12 @@ class Day(models.Model):
 
     def get_location_arabic(self):
         return self.location or 'لا يوجد'
+
+    def get_day_name(self):
+        date_time_str = f"{self.day_number}/{self.month.month}/{self.month.year}"
+        date_time_obj = datetime.strptime(date_time_str, '%d/%b/%Y')
+        translation.activate(settings.LANGUAGE_CODE)
+        return date_format(date_time_obj, 'l')
 
 
 class Vacations(models.Model):
