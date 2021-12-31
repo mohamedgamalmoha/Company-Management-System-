@@ -1,0 +1,16 @@
+{% extends "base_form.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content_form %}
+    <form method="POST" class="contact-form" style="width:65%; align:center; margin: 0 auto; margin-top:35px;  direction: rtl;" id="month-form">
+       <h4 style="text-align:center;">هل حقا تريد حذف "{{ object }}"?</h4>
+       {% csrf_token %}
+       {{ form|crispy }}
+       <div class="d-grid" style="margin-top:10px;">
+           <button class="btn btn-dark btn-lg " id="submitButton" type="submit">حذف</button>
+       </div>
+    </form>
+{% endblock %}

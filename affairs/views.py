@@ -1,7 +1,8 @@
+from django.urls import reverse_lazy
 from django.shortcuts import render, reverse, redirect
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views.generic.detail import SingleObjectMixin
-from django.views.generic import CreateView, UpdateView, FormView
+from django.views.generic import CreateView, UpdateView, DeleteView, FormView
 from django.contrib.auth.backends import get_user_model
 from django.contrib.messages.views import SuccessMessageMixin
 
@@ -83,63 +84,6 @@ class MonthDayInlineView(SuccessMessageMixin, SingleObjectMixin, FormView, Admin
         return HttpResponseRedirect(self.get_success_url())
 
 
-class ActivityCreationView(SuccessMessageMixin, CreateView):
-    form_class = ActivityCreationForm
-    template_name = 'affairs/creation/base.html'
-    success_message = 'تم ادخال البيانات بطريقة صحيحة'
-    extra_context = {'title': 'انشاء نشاط  جديد'}
-
-    def form_valid(self, form):
-        activity = form.save()
-        return redirect(reverse('affairs:activity_detail', kwargs={'pk': activity.pk}))
-
-
-class ActivityDetailView(UpdateView):
-    model = Activity
-    form_class = ActivityCreationForm
-    template_name = 'affairs/update/base.html'
-    extra_context = {'title': 'تعديل النشاط'}
-    success_url = '/'
-
-
-class LocationCreationView(SuccessMessageMixin, CreateView):
-    form_class = LocationCreationForm
-    template_name = 'affairs/creation/base.html'
-    success_message = 'تم ادخال البيانات بطريقة صحيحة'
-    extra_context = {'title': 'انشاء  موقع جديد'}
-
-    def form_valid(self, form):
-        location = form.save()
-        return redirect(reverse('affairs:location_detail', kwargs={'pk': location.pk}))
-
-
-class LocationDetailView(UpdateView):
-    model = Location
-    form_class = LocationCreationForm
-    template_name = 'affairs/update/base.html'
-    extra_context = {'title': 'تعديل الموقع'}
-    success_url = '/'
-
-
-class VacationsCreationView(SuccessMessageMixin, CreateView):
-    form_class = VacationsCreationForm
-    template_name = 'affairs/creation/base.html'
-    success_message = 'تم ادخال البيانات بطريقة صحيحة'
-    extra_context = {'title': 'انشاء اجازة جديدة'}
-
-    def form_valid(self, form):
-        vacations = form.save()
-        return redirect(reverse('affairs:vacations_detail', kwargs={'pk': vacations.pk}))
-
-
-class VacationsDetailView(UpdateView):
-    model = Vacations
-    form_class = VacationsCreationForm
-    template_name = 'accounts/update/user.html'
-    extra_context = {'title': 'تعديل اجازة '}
-    success_url = '/'
-
-
 class MonthListView(BaseSearchList):
     model = Month
     form_class = MonthListFrom
@@ -165,6 +109,33 @@ class MonthListView(BaseSearchList):
         return queryset
 
 
+class ActivityCreationView(SuccessMessageMixin, CreateView):
+    form_class = ActivityCreationForm
+    template_name = 'affairs/creation/base.html'
+    success_message = 'تم ادخال البيانات بطريقة صحيحة'
+    extra_context = {'title': 'انشاء نشاط  جديد'}
+
+    def form_valid(self, form):
+        activity = form.save()
+        return redirect(reverse('affairs:activity_detail', kwargs={'pk': activity.pk}))
+
+
+class ActivityDetailView(UpdateView):
+    model = Activity
+    form_class = ActivityCreationForm
+    template_name = 'affairs/update/base.html'
+    extra_context = {'title': 'تعديل النشاط'}
+    success_url = '/'
+
+
+class ActivityDeleteView(DeleteView, SuccessMessageMixin):
+    model = Activity
+    template_name = 'affairs/delete/activity.html'
+    success_message = 'تم الحذف بنجاح'
+    success_url = reverse_lazy("affairs:activity_list")
+    extra_context = {'title': 'جذف نشاط'}
+
+
 class ActivityListView(BaseSearchList):
     model = Activity
     form_class = ActivityListForm
@@ -181,6 +152,33 @@ class ActivityListView(BaseSearchList):
         return queryset
 
 
+class LocationCreationView(SuccessMessageMixin, CreateView):
+    form_class = LocationCreationForm
+    template_name = 'affairs/creation/base.html'
+    success_message = 'تم ادخال البيانات بطريقة صحيحة'
+    extra_context = {'title': 'انشاء  موقع جديد'}
+
+    def form_valid(self, form):
+        location = form.save()
+        return redirect(reverse('affairs:location_detail', kwargs={'pk': location.pk}))
+
+
+class LocationDeleteView(DeleteView, SuccessMessageMixin):
+    model = Location
+    template_name = 'affairs/delete/location.html'
+    success_message = 'تم الحذف بنجاح'
+    success_url = reverse_lazy('affairs:location_list')
+    extra_context = {'title': 'حذف الموقع'}
+
+
+class LocationDetailView(UpdateView):
+    model = Location
+    form_class = LocationCreationForm
+    template_name = 'affairs/update/base.html'
+    extra_context = {'title': 'تعديل الموقع'}
+    success_url = '/'
+
+
 class LocationListView(BaseSearchList):
     model = Location
     form_class = LocationListForm
@@ -195,6 +193,25 @@ class LocationListView(BaseSearchList):
         if name:
             queryset = queryset.filter(name__icontains=name)
         return queryset
+
+
+class VacationsCreationView(SuccessMessageMixin, CreateView):
+    form_class = VacationsCreationForm
+    template_name = 'affairs/creation/base.html'
+    success_message = 'تم ادخال البيانات بطريقة صحيحة'
+    extra_context = {'title': 'انشاء اجازة جديدة'}
+
+    def form_valid(self, form):
+        vacations = form.save()
+        return redirect(reverse('affairs:vacations_detail', kwargs={'pk': vacations.pk}))
+
+
+class VacationsDetailView(UpdateView):
+    model = Vacations
+    form_class = VacationsCreationForm
+    template_name = 'accounts/update/user.html'
+    extra_context = {'title': 'تعديل اجازة '}
+    success_url = '/'
 
 
 class VacationsListView(BaseSearchList):

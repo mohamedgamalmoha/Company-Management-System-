@@ -23,6 +23,7 @@
         <tr>
           <td>الاسم</td>
           <td>المزيد</td>
+          <td>حذف</td>
         </tr>
       </thead>
       <tbody>
@@ -30,6 +31,7 @@
         <tr>
           <td scope="row">{{ activity.name }}</td>
           <td><a href="{{ activity.get_absolute_url }}"> المزيد </a></td>
+          <td><a href="{% url 'affairs:activity_delete' activity.id %}"> حذف </a></td>
         </tr>
       {% endfor %}
       </tbody>

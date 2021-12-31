@@ -23,6 +23,7 @@
         <tr>
           <td>الاسم</td>
           <td>المزيد</td>
+          <td>حذف</td>
         </tr>
       </thead>
       <tbody>
@@ -30,6 +31,7 @@
         <tr>
           <td scope="row">{{ location.name }}</td>
           <td><a href="{{ location.get_absolute_url }}"> المزيد </a></td>
+          <td><a href="{% url 'affairs:location_delete' location.id %}"> حذف </a></td>
         </tr>
       {% endfor %}
       </tbody>

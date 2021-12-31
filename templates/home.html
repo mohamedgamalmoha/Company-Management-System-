@@ -20,20 +20,16 @@
                                                   </a>
                                              </h5>
                                         </div>
-                                        <div class="container" style="display: inline;">
-                                             <h5 class="card-title" style="display: inline; font-size: 20px;">
-                                                  <a href="{% url 'affairs:location_creation' %}" style="color:#337ab7"><img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px">
-                                             اضافة موقع
-                                                  </a>
-                                             </h5>
+                                        <div class="container" style="display: inline; direction: ltr">
+                                             <h5 class="card-title" style="display: inline; font-size: 20px;"> المواقع</h5>
+                                             <a href="{% url 'affairs:location_creation' %}" style="display:inline"><img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px">اضافة</a>
+                                             <a href="{% url 'affairs:location_list' %}"  style="display:inline"><img src="{% static 'admin/img/icon-changelink.svg' %}" style="height10px; width10px">تعديل</a>
                                         </div>
                                          {% if not request.user.activity %}
-                                        <div class="container" style="display: inline;">
-                                             <h5 class="card-title" style="display: inline; font-size: 20px;">
-                                                  <a href="{% url 'affairs:activity_creation' %}" style="color:#337ab7"><img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px">
-                                                  اضافة نشاط
-                                                  </a>
-                                             </h5>
+                                         <div class="container" style="display: inline; direction: ltr">
+                                             <h5 class="card-title" style="display: inline; font-size: 20px;"> الانشطة</h5>
+                                             <a href="{% url 'affairs:activity_creation' %}" style="display:inline"><img src="{% static 'admin/img/icon-addlink.svg' %}" style="height10px; width10px">اضافة</a>
+                                             <a href="{% url 'affairs:activity_list' %}"  style="display:inline"><img src="{% static 'admin/img/icon-changelink.svg' %}" style="height10px; width10px">تعديل</a>
                                         </div>
                                         {% endif %}
                                    </div>
