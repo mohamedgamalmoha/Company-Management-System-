@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.views.generic import ListView
 
 from affairs.models import Month
-from .utils import is_valid_choice, start_end_date_prepare
+from .utils import start_end_date_prepare
 from affairs.utils import get_range_months_lte_index, get_range_months_gte_index
 
 
@@ -58,7 +58,7 @@ class BaseSearchList(ListView):
 
     def get_context_data(self, **kwargs):
         if 'form' not in kwargs:
-            kwargs['form'] = self.get_form()
+            kwargs.update({'form': self.get_form()})
         return super().get_context_data(**kwargs)
 
 
@@ -75,21 +75,24 @@ class BaseWorkerReportView(BaseSearchList):
         queryset = self.get_worker_queryset(form, queryset)
 
         location = form.cleaned_data.get('location')
-        start_date = form.cleaned_data['start_date']
-        end_date = form.cleaned_data['end_date']
+
+        start_date_month = self.request.GET.get('start_date_month')
+        start_date_year = self.request.GET.get('start_date_year')
+        end_date_month = self.request.GET.get('end_date_month')
+        end_date_year = self.request.GET.get('end_date_year')
 
         if location:
             queryset = queryset.filter(months__location=location)
 
-        if not is_valid_choice(start_date) or not is_valid_choice(end_date):
+        if not all([start_date_month, start_date_year, end_date_month, end_date_year]):
             return queryset
 
         year_start_date, month_start_date, year_end_date, month_end_date = start_end_date_prepare(
-            *start_date.split('-'), *end_date.split('-')
+           start_date_year, start_date_month, end_date_year, end_date_month
         )
 
-        months_start_date_lst = get_range_months_gte_index(month_start_date)
-        months_end_date_lst = get_range_months_lte_index(month_end_date)
+        months_start_date_lst = list(get_range_months_gte_index(month_start_date))
+        months_end_date_lst = list(get_range_months_lte_index(month_end_date))
 
         return queryset.filter(
             (Q(year=year_start_date) & Q(month__in=months_start_date_lst)) |

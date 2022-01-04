@@ -1,13 +1,15 @@
 from django.views.generic import TemplateView, DetailView
 
-from accounts.models import Worker
+
 from .utils import is_valid_choice
-from affairs.models import Month, Day
 from .base_views import BaseSearchList, BaseWorkerReportView
 from .forms import MultiWorkerForm, AccommodationFrom, SingleMonthForm, LocationForm
+from accounts.models import Worker
+from accounts.decorators import AdminAuthMixIn
+from affairs.models import Month, Day
 
 
-class MultiWorkerReportView(BaseWorkerReportView):
+class MultiWorkerReportView(AdminAuthMixIn, BaseWorkerReportView):
     form_class = MultiWorkerForm
     template_name = 'reports/multi_worker.html'
 
@@ -32,7 +34,7 @@ class MultiWorkerReportView(BaseWorkerReportView):
         return queryset
 
 
-class MultiWorkerReportPrintView(TemplateView):
+class MultiWorkerReportPrintView(AdminAuthMixIn, TemplateView):
     template_name = 'reports/multi_worker_print.html'
 
     def get_context_data(self, **kwarg):
@@ -45,7 +47,7 @@ class MultiWorkerReportPrintView(TemplateView):
         return context
 
 
-class SingleMonthReportView(BaseSearchList):
+class SingleMonthReportView(AdminAuthMixIn, BaseSearchList):
     model = Month
     form_class = SingleMonthForm
     context_object_name = 'months'
@@ -72,7 +74,7 @@ class SingleMonthReportView(BaseSearchList):
         return queryset
 
 
-class SingleMonthReportPrintView(DetailView):
+class SingleMonthReportPrintView(AdminAuthMixIn, DetailView):
     model = Month
     context_object_name = 'month'
     template_name = 'reports/single_month_report.html'
@@ -83,7 +85,7 @@ class SingleMonthReportPrintView(DetailView):
         return context
 
 
-class AccommodationReportView(BaseSearchList):
+class AccommodationReportView(AdminAuthMixIn, BaseSearchList):
     model = Worker
     form_class = AccommodationFrom
     context_object_name = 'workers'
@@ -100,7 +102,7 @@ class AccommodationReportView(BaseSearchList):
         return queryset
 
 
-class LocationReportView(BaseSearchList):
+class LocationReportView(AdminAuthMixIn, BaseSearchList):
     model = Month
     form_class = LocationForm
     context_object_name = 'months'
@@ -124,6 +126,3 @@ class LocationReportView(BaseSearchList):
         if activity:
             queryset = queryset.filter(activity=activity)
         return queryset
-
-
-# MyModel._meta.get_field('foo').choices

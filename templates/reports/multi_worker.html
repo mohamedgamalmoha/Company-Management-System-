@@ -91,7 +91,8 @@ window.onload = function(){
         window.location = new_url;
     });
 
-    document.getElementById('selectAll').onclick = function selectAll(){
+    document.getElementById('selectAll').onclick = function selectAll(e){
+      e.preventDefault();
       var ele=document.getElementsByName('workers');
       for(var i=0; i<ele.length; i++){
         if(ele[i].type=='checkbox')
@@ -99,7 +100,8 @@ window.onload = function(){
         }
     };
 
-     document.getElementById('deleteAll').onclick = function deleteAll(){
+     document.getElementById('deleteAll').onclick = function deleteAll(e){
+        e.preventDefault();
         var ele=document.getElementsByName('workers');
         for(var i=0; i<ele.length; i++){
             if(ele[i].type=='checkbox')

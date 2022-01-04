@@ -104,10 +104,8 @@ class WorkerCreationView(SuccessMessageMixin, CreateView, AdminAuthMixIn):
     form_class = WorkerCreationForm
     template_name = 'accounts/creation/worker.html'
     success_message = 'تم ادخال البيانات بطريقة صحيحة'
+    success_url = reverse_lazy("accounts:worker_creation")
     extra_context = {'title': 'اضافة عامل جديد'}
-
-    def get_success_url(self):
-        return self.object.get_absolute_url()
 
 
 class WorkerDetailView(UpdateView, AdminAuthMixIn):

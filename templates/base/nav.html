@@ -16,7 +16,7 @@
                      {% if request.user.is_authenticated %}
                             <li><a href="{% url 'accounts:logout' %}" class="smoothScroll">تسجيل خروج</a></li>
                             <li><a href="{% url 'affairs:location_report' %}" class="smoothScroll">المواقع</a></li>
-                            <li><a href="{% url 'affairs:single_month_report' %}" class="smoothScroll">الرواتب</a></li>
+                            <li><a id="add_attendance" class="smoothScroll">الرواتب</a></li>
                             <li><a href="{% url 'accounts:worker_list' %}" class="smoothScroll">الموظفين</a></li>
                             <li><a href="{% url 'affairs:accommodation_report' %}" class="smoothScroll">الاقامة</a></li>
                             <li><a href="{% url 'affairs:month_creation' %}" class="smoothScroll">الحضور واالنصراف</a></li>
