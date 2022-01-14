@@ -100,6 +100,9 @@ class Month(models.Model):
             raise ValidationError('There is no days for this month')
         return days.all()
 
+    def get_activity(self):
+        return self.activity or 'لا يوجد'
+
     @property
     def username(self):
         return self.worker.name if self.worker else 'لا يوجد'
@@ -223,7 +226,7 @@ class Day(models.Model):
         return reverse('affairs:day_detail', kwargs={'pk': self.pk})
 
     def get_attendance_arabic(self):
-        return 'نعم' if self.attendance else 'لا'
+        return 'Y' if self.attendance else 'N'
 
     def get_location_arabic(self):
         return self.location or 'لا يوجد'

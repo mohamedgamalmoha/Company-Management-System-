@@ -8,32 +8,32 @@
 <div id="print-content">
   <h3 style="width:80%; align:center; margin: auto; margin-top:100px;  direction: rtl; margin-bottom: 10px;  text-align: center;"> تقرير تفصيلي للعمال</h3>
     {% if months %}
-    <table class="table table-bordered" style="width:80%; align:center; margin: 0 auto; margin-top:10px;  direction: rtl;">
+    <table class="table table-bordered" style="width:80%; align:center; margin: 0 auto; margin-top:10px;  direction: rtl; ">
       <thead>
         <tr>
-          <td>الاسم</td>
-          <td>الشهر</td>
-          <td>السنة</td>
-          <td>المواقع</td>
-          <td>النشاط</td>
-          <td>الراتب الاساسي</td>
-          <td>اجمالي خصم</td>
-          <td> اجمالي المكافئات  </td>
-          <td>صافي الراتب</td>
+          <td style="border: 2px solid black;">الاسم</td>
+          <td style="border: 2px solid black;">الشهر</td>
+          <td style="border: 2px solid black;">السنة</td>
+          <td style="border: 2px solid black;">المواقع</td>
+          <td style="border: 2px solid black;">النشاط</td>
+          <td style="border: 2px solid black;">الراتب الاساسي</td>
+          <td style="border: 2px solid black;">اجمالي خصم</td>
+          <td style="border: 2px solid black;"> اجمالي المكافئات  </td>
+          <td style="border: 2px solid black;">صافي الراتب</td>
         </tr>
       </thead>
       <tbody>
       {% for month in months %}
         <tr id="{{ month.id }}">
-          <td scope="row">{{ month.worker.name }}</td>
-          <td>{{ month.get_month_arabic }}</td>
-          <td>{{ month.year }}</td>
-          <td>{{ month.all_days_location|join:" // " }} </td>
-          <td>{{ month.activity }}</td>
-          <td>{{ month.basic_salary }}</td>
-          <td>{{ month.total_salary_deduction }}</td>
-          <td>{{ month.total_rewards }}</td>
-          <td>{{ month.net_salary }}</td>
+          <td scope="row" style="border: 2px solid black;">{{ month.worker.name }}</td>
+          <td style="border: 2px solid black;">{{ month.get_month_arabic }}</td>
+          <td style="border: 2px solid black;">{{ month.year }}</td>
+          <td style="border: 2px solid black;">{{ month.all_days_location|join:" // " }} </td>
+          <td style="border: 2px solid black;">{{ month.get_activity }}</td>
+          <td style="border: 2px solid black;">{{ month.basic_salary }}</td>
+          <td style="border: 2px solid black;">{{ month.total_salary_deduction }}</td>
+          <td style="border: 2px solid black;">{{ month.total_rewards }}</td>
+          <td style="border: 2px solid black;">{{ month.net_salary }}</td>
         </tr>
       {% endfor %}
       </tbody>
