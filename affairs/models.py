@@ -237,6 +237,9 @@ class Day(models.Model):
         translation.activate(settings.LANGUAGE_CODE)
         return date_format(date_time_obj, 'l')
 
+    def is_friday(self):
+        return self.get_day_name() == 'الجمعة'
+
 
 class Vacations(models.Model):
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE, verbose_name='الموظف', related_name='vacations', null=True)

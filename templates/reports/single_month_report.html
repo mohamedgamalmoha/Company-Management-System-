@@ -33,87 +33,87 @@
         <tr style="border: 2px solid black;">
             <th style="border: 2px solid black;">اليوم</th>
             {% for day in days %}
-            <td style="border: 2px solid black;">{{ day.day_number }}</td>
+            <td style="border: 2px solid black;{% if day.is_friday %}background-color:#9e9e9e{% endif %}"> {{ day.day_number }}</td>
             {% endfor %}
         </tr>
 
          <tr style="border: 2px solid black;">
             <th style="border: 2px solid black;">الحضو</th>
             {% for day in days %}
-            <td style="border: 2px solid black;">{{ day.get_attendance_arabic }}</td>
+            <td style="border: 2px solid black;{% if day.is_friday %}background-color:#9e9e9e{% endif %}">{{ day.get_attendance_arabic }}</td>
             {% endfor %}
         </tr>
 
          <tr style="border: 2px solid black;">
             <th style="border: 2px solid black;">المشروع</th>
             {% for day in days %}
-            <td style="border: 2px solid black;">{{ month.get_activity }}</td>
+            <td style="border: 2px solid black;{% if day.is_friday %}background-color:#9e9e9e{% endif %}">{{ month.get_activity }}</td>
             {% endfor %}
         </tr>
 
         <tr style="border: 2px solid black;">
             <th style="border: 2px solid black;">الموقع</th>
             {% for day in days %}
-            <td style="border: 2px solid black;">{{ day.get_location_arabic }}</td>
+            <td style="border: 2px solid black;{% if day.is_friday %}background-color:#9e9e9e{% endif %}">{{ day.get_location_arabic }}</td>
             {% endfor %}
         </tr>
 
          <tr style="border: 2px solid black;">
             <th style="border: 2px solid black;">ساعات اضافية</th>
             {% for day in days %}
-            <td style="border: 2px solid black;">{{ day.extra_work_hours }}</td>
+            <td style="border: 2px solid black;{% if day.is_friday %}background-color:#9e9e9e{% endif %}">{{ day.extra_work_hours }}</td>
             {% endfor %}
         </tr>
 
          <tr style="border: 2px solid black;">
             <th style="border: 2px solid black;">الخصم</th>
             {% for day in days %}
-            <td style="border: 2px solid black;">{{ day.deduction }}</td>
+            <td style="border: 2px solid black;{% if day.is_friday %}background-color:#9e9e9e{% endif %}">{{ day.deduction }}</td>
             {% endfor %}
         </tr>
 
          <tr style="border: 2px solid black;">
             <th style="border: 2px solid black;">السلف</th>
             {% for day in days %}
-            <td style="border: 2px solid black;">{{ day.loans }}</td>
+            <td style="border: 2px solid black;{% if day.is_friday %}background-color:#9e9e9e{% endif %}">{{ day.loans }}</td>
             {% endfor %}
         </tr>
 
         <tr style="border: 2px solid black;">
             <th style="border: 2px solid black;">المكافئات</th>
             {% for day in days %}
-            <td style="border: 2px solid black;">{{ day.rewards }}</td>
+            <td style="border: 2px solid black;{% if day.is_friday %}background-color:#9e9e9e{% endif %}">{{ day.rewards }}</td>
             {% endfor %}
         </tr>
     </table>
-    <table class="table  table-borderless" style="width:65%; height: 20%; align:center; margin: 0 auto; direction: rtl;">
-        <tbody>
+    <table class="table  table-borderless" style="width: 65%;  align: center; margin: 0 auto; direction: rtl;">
+        <tbody style="max-height: 100px;">
             <tr style="border: 2px solid black;">
-              <td style="border: 2px solid black;"><label>بدل غذاء</label><p style="margin: 0px;">{{ month.feeding_allowance}}</p></td>
-              <td style="border: 2px solid black;"><label>بدل سكن</label><p style="margin: 0px;">{{ month.housing_allowance}}</p></td>
-              <td style="border: 2px solid black;"><label>بدل انتقال</label><p style="margin: 0px;">{{ month.transporting_allowance}}</p></td>
-              <td style="border: 2px solid black;"><label>اجمالي البدالات</label><p style="margin: 0px;">{{ month.get_total_allowance}}</p></td>
+              <td style="border: 2px solid black; margin: 0; padding: 0"><label>بدل غذاء</label><p style="margin: 0px;">{{ month.feeding_allowance}}</p></td>
+              <td style="border: 2px solid black; margin: 0; padding: 0"><label>بدل سكن</label><p style="margin: 0px;">{{ month.housing_allowance}}</p></td>
+              <td style="border: 2px solid black; margin: 0; padding: 0"><label>بدل انتقال</label><p style="margin: 0px;">{{ month.transporting_allowance}}</p></td>
+              <td style="border: 2px solid black; margin: 0; padding: 0"><label>اجمالي البدالات</label><p style="margin: 0px;">{{ month.get_total_allowance}}</p></td>
             </tr>
             <tr style="border: 2px solid black;">
-              <td style="border: 2px solid black;"><label>اجمالي عدد الساعات الاضافية</label><p style="margin: 0px;">{{ month.total_extra_work_hours}}</p></td>
-              <td style="border: 2px solid black;"><label>اجمالي قيمة الساعات الاضافية</label><p style="margin: 0px;">{{ month.total_extra_work_hours_money}}</p></td>
+              <td style="border: 2px solid black;margin: 0; padding: 0"><label>اجمالي عدد الساعات الاضافية</label><p style="margin: 0px;">{{ month.total_extra_work_hours}}</p></td>
+              <td style="border: 2px solid black;margin: 0; padding: 0"><label>اجمالي قيمة الساعات الاضافية</label><p style="margin: 0px;">{{ month.total_extra_work_hours_money}}</p></td>
             </tr>
             <tr style="border: 2px solid black;">
-              <td style="border: 2px solid black;"><label>اجمالي الخصومات</label><p style="margin: 0px;">{{ month.total_deduction}}</p></td>
-              <td style="border: 2px solid black;"><label>اجمالي المكافئات</label><p style="margin: 0px;">{{ month.total_rewards}}</p></td>
-              <td style="border: 2px solid black;"><label>اجمالي السلف</label><p style="margin: 0px;">{{ month.total_loans}}</p></td>
+              <td style="border: 2px solid black;margin: 0; padding: 0"><label>اجمالي الخصومات</label><p style="margin: 0px;">{{ month.total_deduction}}</p></td>
+              <td style="border: 2px solid black;margin: 0; padding: 0"><label>اجمالي المكافئات</label><p style="margin: 0px;">{{ month.total_rewards}}</p></td>
+              <td style="border: 2px solid black;margin: 0; padding: 0"><label>اجمالي السلف</label><p style="margin: 0px;">{{ month.total_loans}}</p></td>
             </tr>
             <tr style="border: 2px solid black;">
-              <td style="border: 2px solid black;"><label>اجمالي ايام الغياب الفعلية</label><p style="margin: 0px;">{{ month.get_total_real_absence_days}}</p></td>
-              <td style="border: 2px solid black;"><label>اجمالي ايام الغياب</label><p style="margin: 0px;">{{ month.get_total_absence_days}}</p></td>
-              <td style="border: 2px solid black;"><label>عدد ساعات الغياب</label><p style="margin: 0px;">{{ month.total_absence_hours}}</p></td>
-              <td style="border: 2px solid black;"><label>اجمالي خصم ساعات الغياب</label><p style="margin: 0px;">{{ month.total_absence_deduction}}</p></td>
+              <td style="border: 2px solid black;margin: 0; padding: 0"><label>اجمالي ايام الغياب الفعلية</label><p style="margin: 0px;">{{ month.get_total_real_absence_days}}</p></td>
+              <td style="border: 2px solid black;margin: 0; padding: 0"><label>اجمالي ايام الغياب</label><p style="margin: 0px;">{{ month.get_total_absence_days}}</p></td>
+              <td style="border: 2px solid black;margin: 0; padding: 0"><label>عدد ساعات الغياب</label><p style="margin: 0px;">{{ month.total_absence_hours}}</p></td>
+              <td style="border: 2px solid black;margin: 0; padding: 0"><label>اجمالي خصم ساعات الغياب</label><p style="margin: 0px;">{{ month.total_absence_deduction}}</p></td>
             </tr>
-            <tr style="border: 2px solid black;">
-              <td style="border: 2px solid black;"><label>الراتب الاساسي</label><p style="margin: 0px;">{{ month.basic_salary}}</p></td>
-              <td style="border: 2px solid black;"><label>اجمالي المرتب</label><p style="margin: 0px;">{{ month.total_salary}}</p></td>
-              <td style="border: 2px solid black;"><label>اجمالي الخصم</label><p style="margin: 0px;">{{ month.total_salary_deduction}}</p></td>
-              <td style="border: 2px solid black;"><label>صاقي المرتب</label><p style="margin: 0px;">{{ month.net_salary}}</p></td>
+            <tr style="border: 2px solid black">
+              <td style="border: 2px solid black;margin: 0; padding: 0"><label>الراتب الاساسي</label><p style="margin: 0px;">{{ month.basic_salary}}</p></td>
+              <td style="border: 2px solid black;margin: 0; padding: 0"><label>اجمالي المرتب</label><p style="margin: 0px;">{{ month.total_salary}}</p></td>
+              <td style="border: 2px solid black;margin: 0; padding: 0"><label>اجمالي الخصم</label><p style="margin: 0px;">{{ month.total_salary_deduction}}</p></td>
+              <td style="border: 2px solid black;margin: 0; padding: 0"><label>صاقي المرتب</label><p style="margin: 0px;">{{ month.net_salary}}</p></td>
             </tr>
           </tbody>
     </table>

@@ -41,7 +41,7 @@ class SelectMonthYearWidget(forms.Widget):
             self.years = years
         else:
             this_year = datetime.date.today().year
-            self.years = range(this_year, this_year + 10)
+            self.years = range(this_year - 10, this_year + 10)
 
         # Optional dict of months to use in the "month" select box.
         self.months = months or MONTHS
@@ -166,7 +166,7 @@ class MonthYearWidget(Widget):
             self.years = years
         else:
             this_year = datetime.date.today().year
-            self.years = range(this_year, this_year+10)
+            self.years = range(this_year-10, this_year+10)
 
     def render(self, name, value, attrs=None, renderer=None):
         try:
