@@ -84,13 +84,13 @@ class BaseWorkerReportView(BaseSearchList):
         if location:
             queryset = queryset.filter(months__location=location)
 
-        if not all([start_date_month, start_date_year, end_date_month, end_date_year]):
+        if not all([start_date_month, start_date_year, end_date_month, end_date_year]) \
+                or all(map(lambda x: x == '0' or not x, [start_date_month, start_date_year, end_date_month, end_date_year])):
             return queryset
 
         year_start_date, month_start_date, year_end_date, month_end_date = start_end_date_prepare(
            start_date_year, start_date_month, end_date_year, end_date_month
         )
-
         months_start_date_lst = list(get_range_months_gte_index(month_start_date))
         months_end_date_lst = list(get_range_months_lte_index(month_end_date))
 
