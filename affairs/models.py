@@ -52,8 +52,8 @@ class Location(models.Model):
 class Month(models.Model):
     worker = models.ForeignKey(Worker, on_delete=models.CASCADE, verbose_name='العميل', related_name='worker_months', null=True)
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='اسم النشاط')
-    month = models.CharField('الشهر', max_length=150, choices=MONTHS_NAMES)
-    year = models.CharField('السنة', max_length=150, choices=YEARS_NUMBERS)
+    month = models.CharField('الشهر', max_length=150, choices=MONTHS_NAMES, null=True)
+    year = models.CharField('السنة', max_length=150, choices=YEARS_NUMBERS, null=True)
 
     class Meta:
         verbose_name = 'الشهر'
