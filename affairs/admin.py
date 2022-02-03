@@ -140,7 +140,7 @@ class MonthAdmin(admin.ModelAdmin):
     get_user_name.short_description = 'الاسم'
 
 
-admin.site.register(Activity)
-admin.site.register(Location)
-admin.site.register(Month, MonthAdmin)
-admin.site.register(Vacations, VacationsAdmin)
+# admin.site.register(Activity)
+# admin.site.register(Location)
+# admin.site.register(Month, MonthAdmin)
+# admin.site.register(Vacations, VacationsAdmin)

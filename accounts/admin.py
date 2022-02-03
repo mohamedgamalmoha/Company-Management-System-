@@ -108,6 +108,6 @@ class WorkerAdmin(admin.ModelAdmin):
     get_all_vacations_details.short_description = 'تقرير شامل للاجازات  غي كل الشهور'
 
 
-admin.site.unregister(Group)
-admin.site.register(Worker, WorkerAdmin)
-admin.site.register(User, CustomUserAdmin)
+# admin.site.unregister(Group)
+# admin.site.register(Worker, WorkerAdmin)
+# admin.site.register(User, CustomUserAdmin)
