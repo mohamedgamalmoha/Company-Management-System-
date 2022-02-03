@@ -6,7 +6,7 @@ from .base_views import BaseSearchList, BaseWorkerReportView
 from .forms import MultiWorkerForm, AccommodationFrom, SingleMonthForm, LocationForm
 from accounts.models import Worker
 from accounts.decorators import AdminAuthMixIn
-from affairs.models import Month, Day
+from affairs.models import Month, Day, Location
 
 
 class MultiWorkerReportView(AdminAuthMixIn, BaseWorkerReportView):
@@ -35,15 +35,17 @@ class MultiWorkerReportView(AdminAuthMixIn, BaseWorkerReportView):
 
 
 class MultiWorkerReportPrintView(AdminAuthMixIn, TemplateView):
-    template_name = 'reports/multi_worker_print.html'
+    template_name = 'reports/new_multi_worker_print.html'
 
     def get_context_data(self, **kwarg):
         context = super().get_context_data(**kwarg)
         ids = self.request.GET.getlist('ids', [])
         if len(ids) and ids[0].startswith(','):
             ids = ids[0][1:].split(',')
-        months = Month.objects.filter(id__in=ids).order_by('worker__name', 'month', 'year').distinct()
-        context['months'] = months
+        context.update({
+            'months': Month.objects.filter(id__in=ids).order_by('worker__name', 'month', 'year').distinct(),
+            'locations':  Location.objects.values().order_by('id')
+        })
         return context
 
 

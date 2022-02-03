@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tags %}
+
+{% block title %} {{ title }} {% endblock %}
+
+
+{% block content %}
+<div id="print-content">
+  <h3 style="width:80%; align:center; margin: auto; margin-top:100px;  direction: rtl; margin-bottom: 10px;  text-align: center;"> تقرير تفصيلي للعمال</h3>
+    {% if months %}
+    <table class="table table-bordered" style="width:80%; align:center; margin: 0 auto; margin-top:10px;  direction: rtl; ">
+      <thead>
+        <tr>
+          <td style="border: 2px solid black;">الاسم</td>
+          {% for location  in locations %}
+          <td style="border: 2px solid black;">{{ location.name }}</td>
+          {% endfor %}
+          <td style="border: 2px solid black;"> اجمالي المرتب  </td>
+        </tr>
+      </thead>
+      <tbody>
+      {% for month in months %}
+        <tr id="{{ month.id }}">
+          <td scope="row" style="border: 2px solid black;">{{ month.worker.name }}</td>
+          {% with days=month.months|group_days_by_locations:locations %}
+            {% for day in days %}
+            <td style="border: 2px solid black;">{% if day.total_paid %} {{ day.total_paid }} {% else %} - {% endif %}</td>
+            {% endfor %}
+          {% endwith %}
+          <td style="border: 2px solid black;">{{ month.net_salary }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+</div>
+<a id="print-btn" class="btn btn-dark btn-lg" style="direction: ltr; display: inline; left: 10px;"> طباعة </a>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+window.onload = function(){
+   var btnID = '#print-btn';
+   var originalContents = $("body").html();
+   var printContents = $('#print-content').html();
+
+   function addPrintEvent(e){
+       $("body").html(printContents);
+       window.print();
+       $("body").html(originalContents);
+       $(btnID).on('click', addPrintEvent);
+   };
+
+   $(btnID).on('click', addPrintEvent);
+};
+</script>
+{% endblock %}
+
+

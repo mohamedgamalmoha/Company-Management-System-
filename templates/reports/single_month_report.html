@@ -3,6 +3,11 @@
 
 {% block title %} {{ title }} {% endblock %}
 
+{% block extra_style %}
+    <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
+    <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+{% endblock %}
+
 
 {% block content %}
 <style>
@@ -86,7 +91,7 @@
             {% endfor %}
         </tr>
     </table>
-    <table class="table  table-borderless" style="width: 65%;  align: center; margin: 0 auto; direction: rtl;">
+    <table class="table  table-borderless" style="width: 65%;  align: center; margin: 0 auto; direction: rtl; margin-top: 20px">
         <tbody style="max-height: 100px;">
             <tr style="border: 2px solid black;">
               <td style="border: 2px solid black; margin: 0; padding: 0"><label>بدل غذاء</label><p style="margin: 0px;">{{ month.feeding_allowance}}</p></td>
@@ -125,15 +130,14 @@
 {% block extra_js %}
 <script>
 window.onload = function(){
-   var btnID = '#print-btn';
-   var originalContents = $("body").html();
-   var printContents = $('#print-content').html();
+   const print_obj = {
+        printable: 'print-content',
+        type: 'html',
+        maxWidth: 100
+   }
 
    function addPrintEvent(e){
-       $("body").html(printContents);
-       window.print();
-       $("body").html(originalContents);
-       $(btnID).on('click', addPrintEvent);
+       printJS(print_obj);
    };
 
    $(btnID).on('click', addPrintEvent);

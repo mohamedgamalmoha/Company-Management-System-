@@ -13,6 +13,7 @@ from django.core.validators import ValidationError
 from django.contrib.auth.backends import get_user_model
 
 from accounts.models import Worker
+from .managers import DayManager
 from .decorators import decimal_limit
 from .utils import MONTHS_DICT, MONTHS_NAMES, YEARS_NUMBERS
 
@@ -214,6 +215,8 @@ class Day(models.Model):
     deduction = models.DecimalField('الخصم', default=0.0,  max_digits=20, decimal_places=2)
     rewards = models.DecimalField('المكافئات', default=0.0,  max_digits=20, decimal_places=2)
     loans = models.DecimalField('السلف', default=0.0,  max_digits=20, decimal_places=2)
+
+    objects = DayManager()
 
     class Meta:
         verbose_name = 'اليوم'
