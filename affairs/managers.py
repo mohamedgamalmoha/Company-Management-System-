@@ -18,6 +18,7 @@ def update_day(dct: dict) -> dict:
 
 
 class DayManager(Manager):
+
     def group_by_location(self) -> list:
         return list(map(update_day, self.values('location__id', 'location__name', 'month__id', 'month__worker__basic_salary').annotate(
             total_extra_hours=Sum('extra_work_hours'),
@@ -32,6 +33,6 @@ class DayManager(Manager):
         query = self.group_by_location()
         length = len(locations) - len(query)
         if length > 0:
-            query.extend([None for _ in range(length)])
-        sorted_list1 = [x for _, x in sorted(zip(locations, query), key=lambda pair: pair[0].get('id'))]
-        return sorted_list1
+            query.extend([{} for _ in range(length)])
+        return [x for _, x in sorted(zip(locations, query),
+                                     key=lambda pair: pair[0].get('id') == pair[1].get('location__id'))]
