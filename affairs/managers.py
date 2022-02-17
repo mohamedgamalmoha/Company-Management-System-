@@ -27,12 +27,13 @@ class DayManager(Manager):
             total_loans=Sum('loans'),
             num_of_attendance=Count(Case(When(attendance=True, then=Value(1)))),
             num_of_absence=Count(Case(When(attendance=False, then=Value(1)))),
-        ).order_by('location__id')))
+        ).exclude(location__id__isnull=True).order_by('location__id')))
 
     def group_by_location_given_id(self, locations) -> list:
         query = self.group_by_location()
-        length = len(locations) - len(query)
-        if length > 0:
-            query.extend([{} for _ in range(length)])
-        return [x for _, x in sorted(zip(locations, query),
-                                     key=lambda pair: pair[0].get('id') == pair[1].get('location__id'))]
+        locations_ids = list(map(lambda i: i.get('id'), locations))
+        query_ids = set(map(lambda i: i.get('location__id'), query))
+        indexes = map(lambda i: locations_ids.index(i), set(locations_ids) - query_ids)
+        for iter_index, index in enumerate(indexes):
+            query.insert(index+iter_index, {})
+        return query

@@ -28,7 +28,7 @@ class MonthUpdateForm(forms.ModelForm):
 class MonthCreationForm(MonthUpdateForm):
     location = forms.ModelChoiceField(queryset=Location.objects.all(), label='الموقع',
                                       help_text='سيتم اضافة الموقع لكل يوم في الشهر تلقائيا',
-                                      widget=forms.Select(attrs={'class': 'form-control'}),)
+                                      widget=forms.Select(attrs={'class': 'form-control'}), required=True)
 
     def clean_location(self):
         location_id = self.cleaned_data.get('location')

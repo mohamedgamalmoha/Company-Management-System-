@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load tags %}
+{% load i18n %}
 
 {% block title %} {{ title }} {% endblock %}
 
@@ -13,6 +14,7 @@
       <thead>
         <tr>
           <td style="border: 2px solid black;">الاسم</td>
+          <td style="border: 2px solid black;">التاريح</td>
           {% for location  in locations %}
           <td style="border: 2px solid black;">{{ location.name }}</td>
           {% endfor %}
@@ -23,17 +25,29 @@
       {% for month in months %}
         <tr id="{{ month.id }}">
           <td scope="row" style="border: 2px solid black;">{{ month.worker.name }}</td>
+          <td style="border: 2px solid black;">{{ month.get_month_arabic }}- {{ month.year|translate_number  }} </td>
           {% with days=month.months|group_days_by_locations:locations %}
             {% for day in days %}
-            <td style="border: 2px solid black;">{% if day.total_paid %} {{ day.total_paid }} {% else %} - {% endif %}</td>
+            <td style="border: 2px solid black;">{% if day %} {{ day.total_paid }} {% else %} - {% endif %}</td>
             {% endfor %}
           {% endwith %}
           <td style="border: 2px solid black;">{{ month.net_salary }}</td>
         </tr>
       {% endfor %}
+
+      {% with locations_total_paid=months|total_paid_location:locations %}
+        <tr>
+        <td scope="row" style="border: 2px solid black;">اجمالي الموقع</td>
+        <td style="border: 2px solid black;">-</td>
+        {% for total_paid in locations_total_paid %}
+          <td style="border: 2px solid black;">{% if total_paid %} {{ total_paid }} {% else %} - {% endif %}</td>
+        {% endfor %}
+        </tr>
+      {% endwith %}
       </tbody>
     </table>
     {% endif %}
+
 </div>
 <a id="print-btn" class="btn btn-dark btn-lg" style="direction: ltr; display: inline; left: 10px;"> طباعة </a>
 {% endblock %}
@@ -56,5 +70,3 @@ window.onload = function(){
 };
 </script>
 {% endblock %}
-
-
