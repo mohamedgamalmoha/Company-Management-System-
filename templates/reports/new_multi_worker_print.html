@@ -18,6 +18,7 @@
           {% for location  in locations %}
           <td style="border: 2px solid black;">{{ location.name }}</td>
           {% endfor %}
+          <td style="border: 2px solid black;"> اجمالي البدالات  </td>
           <td style="border: 2px solid black;"> اجمالي المرتب  </td>
         </tr>
       </thead>
@@ -25,12 +26,13 @@
       {% for month in months %}
         <tr id="{{ month.id }}">
           <td scope="row" style="border: 2px solid black;">{{ month.worker.name }}</td>
-          <td style="border: 2px solid black;">{{ month.get_month_arabic }}- {{ month.year|translate_number  }} </td>
+          <td style="border: 2px solid black;">{{ month.get_month_arabic }} - {{ month.year|translate_number  }} </td>
           {% with days=month.months|group_days_by_locations:locations %}
             {% for day in days %}
             <td style="border: 2px solid black;">{% if day %} {{ day.total_paid }} {% else %} - {% endif %}</td>
             {% endfor %}
           {% endwith %}
+          <td style="border: 2px solid black;">{{ month.get_total_allowance }}</td>
           <td style="border: 2px solid black;">{{ month.net_salary }}</td>
         </tr>
       {% endfor %}
