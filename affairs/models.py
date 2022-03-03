@@ -211,7 +211,7 @@ class Month(models.Model):
         total_deduction = absence_deduction + self.total_loans() + self.total_deduction()
         extra_hours_fees = self.total_extra_work_hours() * self.hour_paid
         attendance_fees = self.attendance_days_count * self.day_paid
-        total_extra = self.total_rewards() + extra_hours_fees + attendance_fees
+        total_extra = self.total_rewards() + extra_hours_fees + attendance_fees + self.get_total_allowance()
         return total_extra - total_deduction
     net_salary.short_description = 'صاقي المرتب'
 
