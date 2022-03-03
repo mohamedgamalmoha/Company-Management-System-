@@ -14,7 +14,7 @@ from django.contrib.auth.backends import get_user_model
 
 from accounts.models import Worker
 from .managers import DayManager
-from .decorators import decimal_limit
+from .decorators import debug, decimal_limit
 from .utils import MONTHS_DICT, MONTHS_NAMES, YEARS_NUMBERS
 
 
@@ -113,9 +113,14 @@ class Month(models.Model):
         return f"{self.month} / {self.year}"
 
     @property
-    @decimal_limit
+    #@decimal_limit
     def hour_paid(self):
-        return self.worker.basic_salary / (30 * 8)
+        return self.day_paid / 8
+
+    @property
+    #@decimal_limit
+    def day_paid(self):
+        return self.worker.basic_salary / 30
 
     @property
     def absence_days(self):
@@ -135,15 +140,15 @@ class Month(models.Model):
     basic_salary.short_description = 'الراتب الاساسي'
 
     def feeding_allowance(self):
-        return self.worker.feeding_allowance
+        return self.worker.feeding_allowance or 0
     feeding_allowance.short_description = 'بدل غذاء'
 
     def housing_allowance(self):
-        return self.worker.housing_allowance
+        return self.worker.housing_allowance or 0
     housing_allowance.short_description = 'بدل سكن'
 
     def transporting_allowance(self):
-        return self.worker.transporting_allowance
+        return self.worker.transporting_allowance or 0
     transporting_allowance.short_description = 'بدل انتقال'
 
     def get_total_allowance(self):
@@ -161,7 +166,7 @@ class Month(models.Model):
     total_extra_work_hours_money.short_description = 'اجمالي قيمة الساعات الاضافية'
 
     def total_deduction(self):
-        return (self.get_days_query().aggregate(Sum('deduction')).get('deduction__sum') or 0) * self.hour_paid
+        return self.get_days_query().aggregate(Sum('deduction')).get('deduction__sum') or 0 #* self.hour_paid
     total_deduction.short_description = 'اجمالي الخصومات'
 
     def total_rewards(self):
@@ -178,7 +183,7 @@ class Month(models.Model):
 
     @decimal_limit
     def total_absence_deduction(self):
-        return self.total_absence_hours() * self.hour_paid
+        return self.get_total_absence_days() * self.day_paid
     total_absence_deduction.short_description = 'اجمالي خصم ساعات الغياب'
 
     def get_total_real_absence_days(self):
@@ -192,17 +197,22 @@ class Month(models.Model):
     # Total section
     @decimal_limit
     def total_salary(self):
-        return self.basic_salary() + self.get_total_allowance() + self.total_extra_work_hours_money() + self.total_rewards()
+        return self.attendance_days_count * self.day_paid + self.get_total_allowance() + self.total_extra_work_hours_money() + self.total_rewards()
     total_salary.short_description = 'اجمالي المرتب'
 
-    @decimal_limit
+    # @decimal_limit
     def total_salary_deduction(self):
         return self.total_deduction() + self.total_loans() + self.total_absence_deduction()
     total_salary_deduction.short_description = 'اجمالي الخصم'
 
     @decimal_limit
     def net_salary(self):
-        return self.total_salary() - self.total_salary_deduction()
+        absence_deduction = self.get_total_absence_days() * self.day_paid
+        total_deduction = absence_deduction + self.total_loans() + self.total_deduction()
+        extra_hours_fees = self.total_extra_work_hours() * self.hour_paid
+        attendance_fees = self.attendance_days_count * self.day_paid
+        total_extra = self.total_rewards() + extra_hours_fees + attendance_fees
+        return total_extra - total_deduction
     net_salary.short_description = 'صاقي المرتب'
 
 
@@ -234,6 +244,7 @@ class Day(models.Model):
     def get_location_arabic(self):
         return self.location or 'لا يوجد'
 
+    @debug(prefix='In affairs model ')
     def get_day_name(self):
         date_time_str = f"{self.day_number}/{self.month.month}/{self.month.year}"
         date_time_obj = datetime.strptime(date_time_str, '%d/%b/%Y')
